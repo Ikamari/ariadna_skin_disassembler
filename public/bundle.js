@@ -18370,7 +18370,8 @@ var Calculator = function (_Component) {
         value: function loadSkins(skins) {
             this.setState({
                 skins: skins
-            }, console.log("Loaded skins", this.state.skins, skins));
+            });
+            console.log("Loaded skins", skins);
         }
     }, {
         key: "deleteSkin",
@@ -18380,7 +18381,7 @@ var Calculator = function (_Component) {
             this.setState({
                 skins: skins
             });
-            console.log("Deleted skin");
+            console.log("Deleted skin №" + index);
         }
     }, {
         key: "deletePart",
@@ -18390,7 +18391,7 @@ var Calculator = function (_Component) {
             this.setState({
                 parts: parts
             });
-            console.log("Deleted skin part");
+            console.log("Deleted skin part №" + index);
         }
     }, {
         key: "render",
@@ -18405,7 +18406,12 @@ var Calculator = function (_Component) {
                     } }),
                 _react2.default.createElement(_ImageCarousel2.default, { images: this.state.skins, removeImage: function removeImage(index) {
                         return _this2.deleteSkin(index);
-                    } })
+                    }, uniqueKey: "skins" }),
+                _react2.default.createElement(
+                    "button",
+                    { className: "custom-button" },
+                    "\u0420\u0430\u0437\u043E\u0431\u0440\u0430\u0442\u044C \u0441\u043A\u0438\u043D\u044B!"
+                )
             );
         }
     }]);
@@ -18495,24 +18501,43 @@ var ImageCarousel = function (_Component) {
     }
 
     _createClass(ImageCarousel, [{
-        key: "drawImages",
+        key: "createImageBlock",
+        value: function createImageBlock(image, index) {
+            var _props = this.props,
+                uniqueKey = _props.uniqueKey,
+                removeImage = _props.removeImage;
 
+            return _react2.default.createElement(
+                "div",
+                { key: uniqueKey + "-" + index, className: "image-carousel-element" },
+                _react2.default.createElement(
+                    "div",
+                    { className: "remove-button", onClick: function onClick() {
+                            return removeImage(index);
+                        } },
+                    "x"
+                ),
+                _react2.default.createElement("img", { ref: uniqueKey + "-" + index, onLoad: function onLoad(e) {
+                        e.target.naturalHeight > 64 || e.target.naturalWidth > 64 ? removeImage(index) : undefined;
+                    } }),
+                this.drawImage(image, index, uniqueKey)
+            );
+        }
+    }, {
+        key: "drawImage",
+        value: function drawImage(image, index, uniqueKey) {
+            var _this2 = this;
 
-        //Create block and then do this function
-        value: function drawImages(image, index) {
-            var imageBlock = _react2.default.createElement("img", null);
             var reader = new FileReader();
             reader.onload = function (e) {
-                imageBlock = e.target.result;
+                _this2.refs[uniqueKey + "-" + index].src = e.target.result;
             };
-            console.log(image);
             reader.readAsDataURL(image);
-            return imageBlock;
         }
     }, {
         key: "render",
         value: function render() {
-            var _this2 = this;
+            var _this3 = this;
 
             var images = this.props.images;
 
@@ -18520,7 +18545,7 @@ var ImageCarousel = function (_Component) {
                 "div",
                 { className: "image-carousel" },
                 images.map(function (image, index) {
-                    return _this2.drawImages(image, index);
+                    return _this3.createImageBlock(image, index);
                 })
             );
         }

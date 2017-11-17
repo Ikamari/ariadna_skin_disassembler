@@ -1,0 +1,46 @@
+.image-carousel {
+    display: block;
+    height: 200px;
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid black;
+    overflow: scroll;
+}
+
+.image-carousel-element {
+    position: relative;
+    display: inline-block;
+    padding: 10px;
+    height: 80px;
+    width: 80px;
+}
+
+.image-carousel-element > img {
+    display: block;
+    max-width: 80px;
+    max-height: 80px;
+}
+
+.remove-button {
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    height: 25px;
+    width: 25px;
+    font-family: cursive;
+    text-align: center;
+    line-height: 21px;
+    color: white;
+    background: #c0392b;
+    border: 1px solid black;
+    border-radius: 20px;
+    opacity: 0.4;
+    transition-duration: 0.3s;
+    cursor: pointer;
+}
+
+.remove-button:hover {
+    opacity: 1;
+}
+

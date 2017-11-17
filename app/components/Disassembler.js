@@ -16,7 +16,8 @@ export default class Calculator extends Component {
     loadSkins(skins) {
         this.setState({
             skins: skins
-        }, console.log("Loaded skins", this.state.skins, skins));
+        });
+        console.log("Loaded skins", skins)
     }
 
     deleteSkin(index) {
@@ -25,7 +26,7 @@ export default class Calculator extends Component {
         this.setState({
             skins: skins
         });
-        console.log("Deleted skin");
+        console.log("Deleted skin №" + index);
     }
 
     deletePart(index) {
@@ -34,14 +35,15 @@ export default class Calculator extends Component {
         this.setState({
             parts: parts
         });
-        console.log("Deleted skin part");
+        console.log("Deleted skin part №" + index);
     }
 
     render() {
         return(
             <div>
                 <FileLoader loadImages={(images) => this.loadSkins(images)}/>
-                <ImageCarousel images={this.state.skins} removeImage={(index) => this.deleteSkin(index)}/>
+                <ImageCarousel images={this.state.skins} removeImage={(index) => this.deleteSkin(index)} uniqueKey="skins"/>
+                <button className="custom-button">Разобрать скины!</button>
             </div>
         )
     }

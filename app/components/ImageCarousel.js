@@ -3,23 +3,33 @@ import React, { Component } from "react";
 
 export default class ImageCarousel extends Component {
 
-    //Create block and then do this function
-    drawImages(image, index) {
-        let imageBlock = <img/>;
+    createImageBlock(image, index) {
+        const { uniqueKey, removeImage } = this.props;
+        return(
+            <div key={`${uniqueKey}-${index}`} className="image-carousel-element">
+                <div className="remove-button" onClick={() => removeImage(index)}>x</div>
+                <img ref={`${uniqueKey}-${index}`} onLoad={(e) => {
+                    e.target.naturalHeight > 64 || e.target.naturalWidth > 64 ?
+                        removeImage(index) : undefined
+                }}/>
+                {this.drawImage(image, index, uniqueKey)}
+            </div>
+        )
+    }
+
+    drawImage(image, index, uniqueKey) {
         let reader  = new FileReader();
         reader.onload = (e) => {
-            imageBlock = e.target.result;
+            this.refs[`${uniqueKey}-${index}`].src = e.target.result;
         };
-        console.log(image);
         reader.readAsDataURL(image);
-        return imageBlock;
     }
 
     render() {
         const { images } = this.props;
         return(
             <div className="image-carousel">
-                {images.map((image, index) => this.drawImages(image, index))}
+                {images.map((image, index) => this.createImageBlock(image, index))}
             </div>
         )
     }
