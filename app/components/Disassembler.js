@@ -2,32 +2,46 @@
 import React, { Component } from "react";
 // Components
 import FileLoader from "./FileLoader"
+import ImageCarousel from "./ImageCarousel"
 
 export default class Calculator extends Component {
     constructor(props){
         super(props);
         this.state = {
+            skins: [],
+            parts: []
         }
     }
 
-    getImages(event) {
-        event.preventDefault();
+    loadSkins(skins) {
+        this.setState({
+            skins: skins
+        }, console.log("Loaded skins", this.state.skins, skins));
+    }
 
-        const image = event.target.files;
-        console.log(image[0].name.split('.').pop());
-        let reader  = new FileReader();
-        reader.onload = (e) => {
-            this.refs.image.src = e.target.result;
-        };
-        reader.readAsDataURL(image[0]);
-        console.log(this.refs.image.clientWidth);
+    deleteSkin(index) {
+        let skins = this.state.skins;
+        skins.splice(index, 1);
+        this.setState({
+            skins: skins
+        });
+        console.log("Deleted skin");
+    }
+
+    deletePart(index) {
+        let parts = this.state.skins;
+        parts.splice(index, 1);
+        this.setState({
+            parts: parts
+        });
+        console.log("Deleted skin part");
     }
 
     render() {
         return(
             <div>
-                <FileLoader getImages={(images) => this.getImages(images)}/>
-                <img ref="image" onClick={(e) => console.log(e.target.clientWidth)}/>
+                <FileLoader loadImages={(images) => this.loadSkins(images)}/>
+                <ImageCarousel images={this.state.skins} removeImage={(index) => this.deleteSkin(index)}/>
             </div>
         )
     }

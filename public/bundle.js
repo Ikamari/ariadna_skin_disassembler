@@ -18331,9 +18331,13 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _FileLoader = __webpack_require__(30);
+var _FileLoader = __webpack_require__(29);
 
 var _FileLoader2 = _interopRequireDefault(_FileLoader);
+
+var _ImageCarousel = __webpack_require__(30);
+
+var _ImageCarousel2 = _interopRequireDefault(_ImageCarousel);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -18354,39 +18358,53 @@ var Calculator = function (_Component) {
 
         var _this = _possibleConstructorReturn(this, (Calculator.__proto__ || Object.getPrototypeOf(Calculator)).call(this, props));
 
-        _this.state = {};
+        _this.state = {
+            skins: [],
+            parts: []
+        };
         return _this;
     }
 
     _createClass(Calculator, [{
-        key: "getImages",
-        value: function getImages(event) {
-            var _this2 = this;
-
-            event.preventDefault();
-
-            var image = event.target.files;
-            console.log(image[0].name.split('.').pop());
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                _this2.refs.image.src = e.target.result;
-            };
-            reader.readAsDataURL(image[0]);
-            console.log(this.refs.image.clientWidth);
+        key: "loadSkins",
+        value: function loadSkins(skins) {
+            this.setState({
+                skins: skins
+            }, console.log("Loaded skins", this.state.skins, skins));
+        }
+    }, {
+        key: "deleteSkin",
+        value: function deleteSkin(index) {
+            var skins = this.state.skins;
+            skins.splice(index, 1);
+            this.setState({
+                skins: skins
+            });
+            console.log("Deleted skin");
+        }
+    }, {
+        key: "deletePart",
+        value: function deletePart(index) {
+            var parts = this.state.skins;
+            parts.splice(index, 1);
+            this.setState({
+                parts: parts
+            });
+            console.log("Deleted skin part");
         }
     }, {
         key: "render",
         value: function render() {
-            var _this3 = this;
+            var _this2 = this;
 
             return _react2.default.createElement(
                 "div",
                 null,
-                _react2.default.createElement(_FileLoader2.default, { getImages: function getImages(images) {
-                        return _this3.getImages(images);
+                _react2.default.createElement(_FileLoader2.default, { loadImages: function loadImages(images) {
+                        return _this2.loadSkins(images);
                     } }),
-                _react2.default.createElement("img", { ref: "image", onClick: function onClick(e) {
-                        return console.log(e.target.clientWidth);
+                _react2.default.createElement(_ImageCarousel2.default, { images: this.state.skins, removeImage: function removeImage(index) {
+                        return _this2.deleteSkin(index);
                     } })
             );
         }
@@ -18398,8 +18416,7 @@ var Calculator = function (_Component) {
 exports.default = Calculator;
 
 /***/ }),
-/* 29 */,
-/* 30 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18419,23 +18436,21 @@ var saveFilesWithCertainExtension = function saveFilesWithCertainExtension(files
     var filesWithCertainExtension = [];
     for (var i = 0; i < files.length; i++) {
         var currentFileExtension = files[i].name.split('.').pop();
-        console.log(currentFileExtension);
-        currentFileExtension === "png" ? filesWithCertainExtension.push(files[String(i)]) : undefined;
+        currentFileExtension === extension ? filesWithCertainExtension.push(files[String(i)]) : undefined;
     }
     return filesWithCertainExtension;
 }; // React
 
 
 var FileLoader = function FileLoader(props) {
-    var getImages = props.getImages;
-
+    var loadImages = props.loadImages;
 
     return _react2.default.createElement(
         "div",
         null,
         _react2.default.createElement("input", { name: "images", onChange: function onChange(event) {
                 event.preventDefault();
-                console.log(saveFilesWithCertainExtension(event.target.files, "png"));
+                loadImages(saveFilesWithCertainExtension(event.target.files, "png"));
             }, type: "file", multiple: true })
     );
 };
@@ -18443,6 +18458,78 @@ var FileLoader = function FileLoader(props) {
 exports.default = function (props) {
     return FileLoader(props);
 };
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // React
+
+
+var ImageCarousel = function (_Component) {
+    _inherits(ImageCarousel, _Component);
+
+    function ImageCarousel() {
+        _classCallCheck(this, ImageCarousel);
+
+        return _possibleConstructorReturn(this, (ImageCarousel.__proto__ || Object.getPrototypeOf(ImageCarousel)).apply(this, arguments));
+    }
+
+    _createClass(ImageCarousel, [{
+        key: "drawImages",
+
+
+        //Create block and then do this function
+        value: function drawImages(image, index) {
+            var imageBlock = _react2.default.createElement("img", null);
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                imageBlock = e.target.result;
+            };
+            console.log(image);
+            reader.readAsDataURL(image);
+            return imageBlock;
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            var _this2 = this;
+
+            var images = this.props.images;
+
+            return _react2.default.createElement(
+                "div",
+                { className: "image-carousel" },
+                images.map(function (image, index) {
+                    return _this2.drawImages(image, index);
+                })
+            );
+        }
+    }]);
+
+    return ImageCarousel;
+}(_react.Component);
+
+exports.default = ImageCarousel;
 
 /***/ })
 /******/ ]);
