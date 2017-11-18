@@ -1,25 +1,51 @@
 .image-carousel {
     display: block;
     height: 200px;
-    width: 800px;
+    width: 826px;
     margin-left: auto;
     margin-right: auto;
-    border: 1px solid black;
-    overflow: scroll;
+    overflow-y: scroll;
+    border: 1px solid rebeccapurple;
+}
+
+.image-carousel::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+}
+
+.image-carousel::-webkit-scrollbar {
+    width: 10px;
+    background-color: #F5F5F5;
+    cursor: pointer;
+}
+
+.image-carousel::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: rebeccapurple;
 }
 
 .image-carousel-element {
+    display: inline-flex;
     position: relative;
-    display: inline-block;
-    padding: 10px;
     height: 80px;
     width: 80px;
+    margin: 10px;
+    vertical-align: middle;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rebeccapurple;
+    box-shadow: 0 0 12px rebeccapurple;
 }
 
 .image-carousel-element > img {
-    display: block;
     max-width: 80px;
     max-height: 80px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.image-carousel-element:hover .remove-button {
+    opacity: 0.3;
 }
 
 .remove-button {
@@ -32,15 +58,42 @@
     text-align: center;
     line-height: 21px;
     color: white;
-    background: #c0392b;
+    background: rebeccapurple;
     border: 1px solid black;
     border-radius: 20px;
-    opacity: 0.4;
+    opacity: 0;
     transition-duration: 0.3s;
     cursor: pointer;
 }
 
 .remove-button:hover {
-    opacity: 1;
+    opacity: 1!important;
 }
 
+#file-upload {
+    display: none;
+}
+
+.button {
+    display: block;
+    height: 30px;
+    width: 250px;
+    margin: 20px auto;
+    font-size: 14px;
+    line-height: 30px;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    text-align: center;
+    color: white;
+    background-color: rebeccapurple;
+    border: none;
+    cursor: pointer;
+    transition-duration: 0.4s;
+}
+
+.button:hover {
+    background-color: mediumpurple;
+}
+
+.hidden-render {
+    display: none;
+}

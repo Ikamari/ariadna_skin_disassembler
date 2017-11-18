@@ -18339,6 +18339,10 @@ var _ImageCarousel = __webpack_require__(30);
 
 var _ImageCarousel2 = _interopRequireDefault(_ImageCarousel);
 
+var _SkinDisassemble = __webpack_require__(31);
+
+var _SkinDisassemble2 = _interopRequireDefault(_SkinDisassemble);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -18358,9 +18362,10 @@ var Calculator = function (_Component) {
 
         var _this = _possibleConstructorReturn(this, (Calculator.__proto__ || Object.getPrototypeOf(Calculator)).call(this, props));
 
+        _this.skinSize = {};
         _this.state = {
-            skins: [],
-            parts: []
+            skins: {},
+            parts: {}
         };
         return _this;
     }
@@ -18369,25 +18374,65 @@ var Calculator = function (_Component) {
         key: "loadSkins",
         value: function loadSkins(skins) {
             this.setState({
-                skins: skins
+                skins: skins,
+                pars: []
             });
+            this.skinSize = [];
             console.log("Loaded skins", skins);
+        }
+    }, {
+        key: "getImageSize",
+        value: function getImageSize(name, height, width) {
+            this.skinSize[name] = { height: height, width: width };
+            if (Object.keys(this.skinSize).length === Object.keys(this.state.skins).length) {
+                console.log("Got size of images", this.skinSize);
+                this.doImageCleanup();
+            }
+        }
+    }, {
+        key: "doImageCleanup",
+        value: function doImageCleanup() {
+            var _this2 = this;
+
+            var cleanedUp = false;
+            var skins = this.state.skins;
+            Object.keys(this.skinSize).map(function (key) {
+                var _skinSize$key = _this2.skinSize[key],
+                    height = _skinSize$key.height,
+                    width = _skinSize$key.width;
+
+                if (!((height === 64 || height === 32) && width === 64)) {
+                    delete skins[key];
+                    cleanedUp = true;
+                }
+            });
+            if (cleanedUp) {
+                this.setState({
+                    skins: skins
+                });
+                console.log("Cleaned up images", this.state.skins);
+            }
+        }
+    }, {
+        key: "loadParts",
+        value: function loadParts(parts) {
+            console.log(parts);
         }
     }, {
         key: "deleteSkin",
         value: function deleteSkin(index) {
             var skins = this.state.skins;
-            skins.splice(index, 1);
+            delete skins[index];
             this.setState({
                 skins: skins
             });
-            console.log("Deleted skin №" + index);
+            console.log("Deleted skin №" + index, skins);
         }
     }, {
         key: "deletePart",
         value: function deletePart(index) {
             var parts = this.state.skins;
-            parts.splice(index, 1);
+            delete parts[index];
             this.setState({
                 parts: parts
             });
@@ -18396,21 +18441,42 @@ var Calculator = function (_Component) {
     }, {
         key: "render",
         value: function render() {
-            var _this2 = this;
+            var _this3 = this;
 
             return _react2.default.createElement(
                 "div",
                 null,
                 _react2.default.createElement(_FileLoader2.default, { loadImages: function loadImages(images) {
-                        return _this2.loadSkins(images);
+                        return _this3.loadSkins(images);
                     } }),
-                _react2.default.createElement(_ImageCarousel2.default, { images: this.state.skins, removeImage: function removeImage(index) {
-                        return _this2.deleteSkin(index);
-                    }, uniqueKey: "skins" }),
+                _react2.default.createElement(_ImageCarousel2.default, {
+                    images: this.state.skins,
+                    removeImage: function removeImage(index) {
+                        return _this3.deleteSkin(index);
+                    },
+                    getImageSize: function getImageSize(name, height, width) {
+                        return _this3.getImageSize(name, height, width);
+                    },
+                    uniqueKey: "skin"
+                }),
+                _react2.default.createElement(_SkinDisassemble2.default, {
+                    skins: this.state.skins,
+                    skinSizes: this.skinSize,
+                    partLoader: function partLoader(parts) {
+                        return _this3.loadParts(parts);
+                    }
+                }),
+                _react2.default.createElement(_ImageCarousel2.default, {
+                    images: this.state.parts,
+                    removeImage: function removeImage(index) {
+                        return _this3.deletePart(index);
+                    },
+                    uniqueKey: "part"
+                }),
                 _react2.default.createElement(
                     "button",
-                    { className: "custom-button" },
-                    "\u0420\u0430\u0437\u043E\u0431\u0440\u0430\u0442\u044C \u0441\u043A\u0438\u043D\u044B!"
+                    { className: "button" },
+                    "\u042D\u043A\u0441\u043F\u043E\u0440\u0442\u0438\u0440\u043E\u0432\u0430\u0442\u044C \u0447\u0430\u0441\u0442\u0438"
                 )
             );
         }
@@ -18439,10 +18505,10 @@ var _react2 = _interopRequireDefault(_react);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var saveFilesWithCertainExtension = function saveFilesWithCertainExtension(files, extension) {
-    var filesWithCertainExtension = [];
+    var filesWithCertainExtension = {};
     for (var i = 0; i < files.length; i++) {
         var currentFileExtension = files[i].name.split('.').pop();
-        currentFileExtension === extension ? filesWithCertainExtension.push(files[String(i)]) : undefined;
+        currentFileExtension === extension ? filesWithCertainExtension[i] = files[i] : undefined;
     }
     return filesWithCertainExtension;
 }; // React
@@ -18454,7 +18520,12 @@ var FileLoader = function FileLoader(props) {
     return _react2.default.createElement(
         "div",
         null,
-        _react2.default.createElement("input", { name: "images", onChange: function onChange(event) {
+        _react2.default.createElement(
+            "label",
+            { className: "button", htmlFor: "file-upload" },
+            "\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044C \u0441\u043A\u0438\u043D\u044B"
+        ),
+        _react2.default.createElement("input", { id: "file-upload", name: "images", onChange: function onChange(event) {
                 event.preventDefault();
                 loadImages(saveFilesWithCertainExtension(event.target.files, "png"));
             }, type: "file", multiple: true })
@@ -18503,9 +18574,9 @@ var ImageCarousel = function (_Component) {
     _createClass(ImageCarousel, [{
         key: "createImageBlock",
         value: function createImageBlock(image, index) {
-            var _props = this.props,
-                uniqueKey = _props.uniqueKey,
-                removeImage = _props.removeImage;
+            var _this2 = this;
+
+            var uniqueKey = this.props.uniqueKey;
 
             return _react2.default.createElement(
                 "div",
@@ -18517,35 +18588,45 @@ var ImageCarousel = function (_Component) {
                         } },
                     "x"
                 ),
-                _react2.default.createElement("img", { ref: uniqueKey + "-" + index, onLoad: function onLoad(e) {
-                        e.target.naturalHeight > 64 || e.target.naturalWidth > 64 ? removeImage(index) : undefined;
+                _react2.default.createElement("img", { ref: uniqueKey + "-" + index, onLoad: function onLoad() {
+                        return _this2.getImageSize(index, uniqueKey);
                     } }),
                 this.drawImage(image, index, uniqueKey)
             );
         }
     }, {
+        key: "getImageSize",
+        value: function getImageSize(index, uniqueKey) {
+            var getImageSize = this.props.getImageSize;
+
+            var image = this.refs[uniqueKey + "-" + index];
+            var imageWidth = image.naturalWidth;
+            var imageHeight = image.naturalHeight;
+            getImageSize(index, imageHeight, imageWidth);
+        }
+    }, {
         key: "drawImage",
         value: function drawImage(image, index, uniqueKey) {
-            var _this2 = this;
+            var _this3 = this;
 
             var reader = new FileReader();
             reader.onload = function (e) {
-                _this2.refs[uniqueKey + "-" + index].src = e.target.result;
+                _this3.refs[uniqueKey + "-" + index].src = e.target.result;
             };
             reader.readAsDataURL(image);
         }
     }, {
         key: "render",
         value: function render() {
-            var _this3 = this;
+            var _this4 = this;
 
             var images = this.props.images;
 
             return _react2.default.createElement(
                 "div",
                 { className: "image-carousel" },
-                images.map(function (image, index) {
-                    return _this3.createImageBlock(image, index);
+                Object.keys(images).map(function (key) {
+                    return _this4.createImageBlock(images[key], key);
                 })
             );
         }
@@ -18555,6 +18636,198 @@ var ImageCarousel = function (_Component) {
 }(_react.Component);
 
 exports.default = ImageCarousel;
+
+/***/ }),
+/* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _GetSkinParts = __webpack_require__(33);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // React
+
+// Components
+
+
+var SkinDisassemble = function (_Component) {
+    _inherits(SkinDisassemble, _Component);
+
+    function SkinDisassemble() {
+        _classCallCheck(this, SkinDisassemble);
+
+        return _possibleConstructorReturn(this, (SkinDisassemble.__proto__ || Object.getPrototypeOf(SkinDisassemble)).apply(this, arguments));
+    }
+
+    _createClass(SkinDisassemble, [{
+        key: "disassembleSkins",
+        value: function disassembleSkins() {
+            var _this2 = this;
+
+            var _props = this.props,
+                skins = _props.skins,
+                sizes = _props.sizes,
+                partLoader = _props.partLoader;
+
+            var parts = {};
+
+            Object.keys(skins).map(function (key) {
+                return Object.assign(parts, (0, _GetSkinParts.getSkinParts)(skins[key], key, _this2.refs.offscreenCanvas, sizes[key]));
+            });
+            partLoader(parts);
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            var _this3 = this;
+
+            return _react2.default.createElement(
+                "div",
+                { className: "disassembler" },
+                _react2.default.createElement(
+                    "button",
+                    { className: "button", onClick: function onClick() {
+                            return _this3.disassembleSkins();
+                        } },
+                    "\u0420\u0430\u0437\u043E\u0431\u0440\u0430\u0442\u044C \u0441\u043A\u0438\u043D\u044B"
+                ),
+                _react2.default.createElement("canvas", { className: "hidden-render", ref: "offscreenCanvas" })
+            );
+        }
+    }]);
+
+    return SkinDisassemble;
+}(_react.Component);
+
+exports.default = SkinDisassemble;
+
+/***/ }),
+/* 32 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.extendedCoordinates = exports.coordinates = undefined;
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var coordinates = exports.coordinates = {
+    "head": [0, 0, 32, 16], // x and y of left top and right bottom corners of part
+    "head-armor": [32, 0, 64, 16],
+    "body": [16, 16, 40, 32],
+    "right-hand": [40, 16, 56, 32],
+    "right-leg": [0, 16, 16, 32]
+}; //React
+var extendedCoordinates = exports.extendedCoordinates = {
+    "left-hand": [32, 48, 48, 64],
+    "left-hand-armor": [48, 48, 64, 64],
+    "body-armor": [16, 32, 40, 48],
+    "right-hand-armor": [40, 32, 56, 32],
+    "left-leg": [16, 48, 32, 64],
+    "left-leg-armor": [0, 48, 16, 64],
+    "right-leg-armor": [0, 32, 16, 48]
+};
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.getSkinParts = undefined;
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _PartCoordinates = __webpack_require__(32);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// React
+var drawPartTexture = function drawPartTexture(skin) {
+    // drawTexture(context, canvasProps, layer, folderName, partName) {
+    //     const selectedTextures = this.props.selectedTextures;
+    //
+    //     let partTexture = new Image();
+    //     partTexture.onload = () => {
+    //         context.drawImage(
+    //             partTexture,
+    //             canvasProps.posX,
+    //             canvasProps.posY,
+    //             canvasProps.sWidth,
+    //             canvasProps.sHeight,
+    //             canvasProps.sliceX,
+    //             canvasProps.sliceY,
+    //             canvasProps.dWidth + (layer ? 20 : 0),
+    //             canvasProps.dHeight + (layer ? 20 : 0)
+    //         );
+    //     };
+    //     partTexture.src = selectedTextures[partName][layer];
+    // }
+    //
+    // renderCanvas() {
+    //     const { partName, layer, side } = this.props;
+    //     const folderName = this.getFolderName(partName);
+    //     const selectedTextures = this.props.selectedTextures;
+    //     const canvasProps = this.getCanvasProps(folderName, side, layer);
+    //
+    //     let canvasElement = this.refs.renderedPart;
+    //     let context = canvasElement.getContext('2d');
+    //     context.canvas.width  = canvasProps.dWidth + (layer ? 30 : 0);
+    //     context.canvas.height = canvasProps.dHeight + (layer ? 30 : 0);
+    //     context.shadowBlur = 6;
+    //     context.shadowColor = "black";
+    //     context.imageSmoothingEnabled = false;
+    //
+    //     selectedTextures[partName][layer] !== null ?
+    //         this.drawTexture(context, canvasProps, layer, folderName, partName) : this.eraseTexture(context);
+    // }
+};
+// Components
+
+
+var getPartTexture = function getPartTexture() {};
+
+var getSkinParts = exports.getSkinParts = function getSkinParts(skin, index, canvas, size) {
+    var parts = {};
+    Object.keys(_PartCoordinates.coordinates).map(function (key) {
+        return parts[index + "-" + key] = getPartTexture();
+    });
+    size.height === 64 ? Object.keys(_PartCoordinates.extendedCoordinates).map(function (key) {
+        return parts[index + "-" + key] = getPartTexture();
+    }) : undefined;
+    return parts;
+};
 
 /***/ })
 /******/ ]);

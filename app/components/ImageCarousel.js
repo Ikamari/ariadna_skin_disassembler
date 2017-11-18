@@ -4,17 +4,22 @@ import React, { Component } from "react";
 export default class ImageCarousel extends Component {
 
     createImageBlock(image, index) {
-        const { uniqueKey, removeImage } = this.props;
+        const { uniqueKey } = this.props;
         return(
             <div key={`${uniqueKey}-${index}`} className="image-carousel-element">
                 <div className="remove-button" onClick={() => removeImage(index)}>x</div>
-                <img ref={`${uniqueKey}-${index}`} onLoad={(e) => {
-                    e.target.naturalHeight > 64 || e.target.naturalWidth > 64 ?
-                        removeImage(index) : undefined
-                }}/>
+                <img ref={`${uniqueKey}-${index}`} onLoad={() => this.getImageSize(index, uniqueKey)}/>
                 {this.drawImage(image, index, uniqueKey)}
             </div>
         )
+    }
+
+    getImageSize(index, uniqueKey) {
+        const { getImageSize } = this.props;
+        const image = this.refs[`${uniqueKey}-${index}`];
+        const imageWidth = image.naturalWidth;
+        const imageHeight = image.naturalHeight;
+        getImageSize(index, imageHeight, imageWidth)
     }
 
     drawImage(image, index, uniqueKey) {
@@ -29,7 +34,7 @@ export default class ImageCarousel extends Component {
         const { images } = this.props;
         return(
             <div className="image-carousel">
-                {images.map((image, index) => this.createImageBlock(image, index))}
+                {Object.keys(images).map((key) => this.createImageBlock(images[key], key))}
             </div>
         )
     }
