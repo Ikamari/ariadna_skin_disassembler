@@ -74,6 +74,22 @@
     display: none;
 }
 
+.file-upload-button {
+    display: block;
+    height: 30px;
+    width: 250px;
+    margin: 20px auto;
+    font-size: 14px;
+    line-height: 30px;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    text-align: center;
+    color: white;
+    background-color: rebeccapurple;
+    border: none;
+    cursor: pointer;
+    transition-duration: 0.4s;
+}
+
 .button {
     display: block;
     height: 30px;
@@ -95,5 +111,5 @@
 }
 
 .hidden-render {
-    display: none;
+    /*display: none;*/
 }

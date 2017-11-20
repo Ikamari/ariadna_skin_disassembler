@@ -19,9 +19,9 @@ export default class Calculator extends Component {
     loadSkins(skins) {
         this.setState({
             skins: skins,
-            pars: []
+            pars: {}
         });
-        this.skinSize = [];
+        this.skinSize = {};
         console.log("Loaded skins", skins)
     }
 
@@ -52,7 +52,10 @@ export default class Calculator extends Component {
     }
 
     loadParts(parts) {
-        console.log(parts);
+        // this.setState({
+        //     parts: parts
+        // });
+        console.log("Loaded parts", parts);
     }
 
     deleteSkin(index) {
@@ -76,24 +79,24 @@ export default class Calculator extends Component {
     render() {
         return(
             <div>
-                <FileLoader loadImages={(images) => this.loadSkins(images)}/>
+                <FileLoader returnPath={(images) => this.loadSkins(images)} getImages={true} extension="png"/>
                 <ImageCarousel
                     images={this.state.skins}
                     removeImage={(index) => this.deleteSkin(index)}
                     getImageSize={(name, height, width) => this.getImageSize(name, height, width)}
                     uniqueKey="skin"
                 />
-                <SkinDisassemble
-                    skins={this.state.skins}
-                    skinSizes={this.skinSize}
-                    partLoader={(parts) => this.loadParts(parts)}
-                />
-                <ImageCarousel
-                    images={this.state.parts}
-                    removeImage={(index) => this.deletePart(index)}
-                    uniqueKey="part"
-                />
-                <button className="button">Экспортировать части</button>
+                {/*<SkinDisassemble*/}
+                    {/*skins={this.state.skins}*/}
+                    {/*skinSizes={this.skinSize}*/}
+                    {/*partLoader={(parts) => this.loadParts(parts)}*/}
+                {/*/>*/}
+                {/*<ImageCarousel*/}
+                    {/*images={this.state.parts}*/}
+                    {/*removeImage={(index) => this.deletePart(index)}*/}
+                    {/*uniqueKey="part"*/}
+                {/*/>*/}
+                {/*<button className="button">Экспортировать части</button>*/}
             </div>
         )
     }

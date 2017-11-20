@@ -3,55 +3,46 @@ import React from "react";
 // Components
 import { coordinates, extendedCoordinates } from "./PartCoordinates";
 
-const drawPartTexture = (skin) => {
-    // drawTexture(context, canvasProps, layer, folderName, partName) {
-    //     const selectedTextures = this.props.selectedTextures;
-    //
-    //     let partTexture = new Image();
-    //     partTexture.onload = () => {
-    //         context.drawImage(
-    //             partTexture,
-    //             canvasProps.posX,
-    //             canvasProps.posY,
-    //             canvasProps.sWidth,
-    //             canvasProps.sHeight,
-    //             canvasProps.sliceX,
-    //             canvasProps.sliceY,
-    //             canvasProps.dWidth + (layer ? 20 : 0),
-    //             canvasProps.dHeight + (layer ? 20 : 0)
-    //         );
-    //     };
-    //     partTexture.src = selectedTextures[partName][layer];
-    // }
-    //
-    // renderCanvas() {
-    //     const { partName, layer, side } = this.props;
-    //     const folderName = this.getFolderName(partName);
-    //     const selectedTextures = this.props.selectedTextures;
-    //     const canvasProps = this.getCanvasProps(folderName, side, layer);
-    //
-    //     let canvasElement = this.refs.renderedPart;
-    //     let context = canvasElement.getContext('2d');
-    //     context.canvas.width  = canvasProps.dWidth + (layer ? 30 : 0);
-    //     context.canvas.height = canvasProps.dHeight + (layer ? 30 : 0);
-    //     context.shadowBlur = 6;
-    //     context.shadowColor = "black";
-    //     context.imageSmoothingEnabled = false;
-    //
-    //     selectedTextures[partName][layer] !== null ?
-    //         this.drawTexture(context, canvasProps, layer, folderName, partName) : this.eraseTexture(context);
-    // }
+const drawPartTexture = (skin, canvas, coordinates) => {
+    canvas.width = coordinates[2] - coordinates[0];
+    canvas.height = coordinates[3] - coordinates[1];
+    console.log(coordinates, canvas.width, canvas.height);
+    let context = canvas.getContext('2d');
+
+    let image = new Image();
+    image.onload = () => {
+            context.drawImage(
+                image,
+                coordinates[0],
+                coordinates[1],
+                context.canvas.width,
+                context.canvas.height,
+                0,
+                0,
+                context.canvas.width,
+                context.canvas.height
+            );
+    };
+    image.src = skin;
 };
 
-const getPartTexture = () => {
-
+const getPartTexture = (skin, canvas, coordinates) => {
+    drawPartTexture(skin, canvas, coordinates);
+    console.log(canvas);
 };
 
 export const getSkinParts = (skin, index, canvas, size) => {
     let parts = {};
-    Object.keys(coordinates).map((key) => parts[`${index}-${key}`] = getPartTexture());
-    size.height === 64 ?
-        Object.keys(extendedCoordinates).map((key) => parts[`${index}-${key}`] = getPartTexture()) : undefined;
-    return parts;
+    let reader  = new FileReader();
+    reader.onload = (e) => {
+        console.log("Stated");
+        Object.keys(coordinates).map((key) => parts[`${index}-${key}`] = getPartTexture(e.target.result, canvas, coordinates[key]));
+        console.log(parts);
+        size.height === 64 ?
+            Object.keys(extendedCoordinates).map((key) => parts[`${index}-${key}`] = getPartTexture(e.target.result, canvas, extendedCoordinates[key])) : undefined;
+        console.log("Finished");
+        return parts;
+    };
+    reader.readAsDataURL(skin);
 };
 

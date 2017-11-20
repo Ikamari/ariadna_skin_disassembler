@@ -5,10 +5,10 @@ import { getSkinParts } from "./GetSkinParts";
 
 export default class SkinDisassemble extends Component {
     disassembleSkins() {
-        const { skins, sizes, partLoader } = this.props;
+        const { skins, skinSizes, partLoader } = this.props;
         let parts = {};
 
-        Object.keys(skins).map((key) => Object.assign(parts, getSkinParts(skins[key], key, this.refs.offscreenCanvas, sizes[key])));
+        Object.keys(skins).map((key) => Object.assign(parts, getSkinParts(skins[key], key, this.refs.offscreenCanvas, skinSizes[key])));
         partLoader(parts);
     }
 
