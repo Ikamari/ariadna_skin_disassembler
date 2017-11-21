@@ -113,3 +113,7 @@
 .hidden-render {
     /*display: none;*/
 }
+
+.ruler {
+    display: none;
+}

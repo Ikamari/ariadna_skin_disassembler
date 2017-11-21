@@ -21361,7 +21361,6 @@ var ImageCarousel = function (_Component) {
 
             var uniqueKey = this.props.uniqueKey;
 
-            console.log(image);
             return _react2.default.createElement(
                 "div",
                 { key: uniqueKey + "-" + index, className: "image-carousel-element" },
@@ -21372,18 +21371,23 @@ var ImageCarousel = function (_Component) {
                         } },
                     "x"
                 ),
-                _react2.default.createElement("img", { ref: uniqueKey + "-" + index }),
-                this.drawImage(image, index, uniqueKey)
+                _react2.default.createElement("img", { src: image })
             );
         }
-    }, {
-        key: "drawImage",
-        value: function drawImage(image, index, uniqueKey) {
-            this.refs[uniqueKey + "-" + index].src = image;
-        }
+
+        //ref={`${uniqueKey}-${index}`}
+
     }, {
         key: "removeImage",
-        value: function removeImage() {}
+        value: function removeImage(index) {
+            var _props = this.props,
+                images = _props.images,
+                removeImage = _props.removeImage;
+
+            var newData = images;
+            delete newData[index];
+            removeImage(newData);
+        }
     }, {
         key: "render",
         value: function render() {
@@ -21466,8 +21470,10 @@ var SkinCarousel = function (_Component) {
                 skins = _props.skins,
                 updateSkins = _props.updateSkins;
 
-            console.log("From storage - skins:", this.props);
-            return _react2.default.createElement(_ImageCarousel2.default, { images: skins, removeImage: updateSkins });
+            console.log("From storage skins - SkinCarousel:", this.props);
+            return _react2.default.createElement(_ImageCarousel2.default, { images: skins, removeImage: function removeImage(skins) {
+                    return updateSkins.updateSkins(skins);
+                }, uniqueKey: "skin" });
         }
     }]);
 
@@ -21578,8 +21584,8 @@ var SkinPartsCarousel = function (_Component) {
                 parts = _props.parts,
                 updateSkinParts = _props.updateSkinParts;
 
-            console.log("From storage - skinParts:", this.props);
-            return _react2.default.createElement(_ImageCarousel2.default, { images: parts, removeImage: updateSkinParts });
+            console.log("From storage skinParts - SkinPartsCarousel:", this.props);
+            return _react2.default.createElement(_ImageCarousel2.default, { images: parts, removeImage: updateSkinParts.updateSkinParts, uniqueKey: "part" });
         }
     }]);
 
@@ -21746,7 +21752,11 @@ var _ImageLoader2 = _interopRequireDefault(_ImageLoader);
 
 var _processStatus = __webpack_require__(89);
 
-var skinPartsActions = _interopRequireWildcard(_processStatus);
+var processStatusActions = _interopRequireWildcard(_processStatus);
+
+var _skins = __webpack_require__(81);
+
+var skinsActions = _interopRequireWildcard(_skins);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -21773,29 +21783,55 @@ var SkinLoader = function (_Component) {
     }
 
     _createClass(SkinLoader, [{
+        key: "checkSkinDimensions",
+        value: function checkSkinDimensions(height, width) {
+            return (height === 64 || height === 32) && width === 64;
+        }
+    }, {
         key: "cleanUpSkins",
-        value: function cleanUpSkins(skins) {
-            var validSkins = {},
+        value: function cleanUpSkins(skins, amount) {
+            var _this2 = this;
+
+            var fileNum = 0,
+                validSkins = {},
                 skinSizes = {};
 
-            //     const image = this.refs[`${uniqueKey}-${index}`];
-            //     const imageWidth = image.naturalWidth;
-            //     const imageHeight = image.naturalHeight;
-            //     getImageSize(index, imageHeight, imageWidth)
+            var _loop = function _loop(i) {
+                var image = new Image();
+                image.onload = function (e) {
+                    var height = e.target.naturalHeight,
+                        width = e.target.naturalWidth;
+                    if (_this2.checkSkinDimensions(height, width)) {
+                        validSkins[fileNum] = skins[i];
+                        skinSizes[fileNum] = { height: height, width: width };
+                        fileNum++;
+                    }
+                    if (i === amount - 1) {
+                        _this2.saveSkins(validSkins, skinSizes);
+                    }
+                };
+                image.src = skins[i];
+            };
 
-            return { validSkins: validSkins, skinSizes: skinSizes };
+            for (var i = 0; i < amount; i++) {
+                _loop(i);
+            }
         }
     }, {
         key: "saveSkins",
-        value: function saveSkins(skins) {}
+        value: function saveSkins(skins, sizes) {
+            var uploadSkins = this.props.skinsActions.uploadSkins;
+
+            console.log("Cleaned up skins - SkinLoader:", skins, sizes);
+            uploadSkins(skins, sizes);
+        }
     }, {
         key: "render",
         value: function render() {
-            var _this2 = this;
+            var _this3 = this;
 
-            console.log(this.props);
-            return _react2.default.createElement(_ImageLoader2.default, { extension: "png", returnPath: function returnPath(skins) {
-                    return _this2.saveSkins(_this2.cleanUpSkins(skins));
+            return _react2.default.createElement(_ImageLoader2.default, { extension: "png", returnPath: function returnPath(skins, amount) {
+                    return _this3.cleanUpSkins(skins, amount);
                 } });
         }
     }]);
@@ -21803,22 +21839,17 @@ var SkinLoader = function (_Component) {
     return SkinLoader;
 }(_react.Component);
 
-var mapStateToProps = function mapStateToProps(state) {
-    return {
-        skins: state.skins
-    };
-};
-
 // Actions
 
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     return {
-        changeSkinLoadingStatus: (0, _redux.bindActionCreators)(skinPartsActions, dispatch)
+        changeSkinLoadingStatus: (0, _redux.bindActionCreators)(processStatusActions, dispatch),
+        skinsActions: (0, _redux.bindActionCreators)(skinsActions, dispatch)
     };
 };
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(SkinPartsCarousel);
+exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(SkinLoader);
 
 /***/ }),
 /* 88 */
@@ -21861,7 +21892,11 @@ var FileLoader = function (_Component) {
 
     _createClass(FileLoader, [{
         key: "getImagesFromInput",
-        value: function getImagesFromInput(inputData, extension) {
+        value: function getImagesFromInput(inputData) {
+            var _props = this.props,
+                returnPath = _props.returnPath,
+                extension = _props.extension;
+
             var imageFiles = {},
                 images = {},
                 fileNum = 0;
@@ -21883,6 +21918,9 @@ var FileLoader = function (_Component) {
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     images[_i] = e.target.result;
+                    if (_i === fileNum - 1) {
+                        returnPath(images, fileNum);
+                    }
                 };
                 reader.readAsDataURL(imageFiles[_i]);
             };
@@ -21890,8 +21928,6 @@ var FileLoader = function (_Component) {
             for (var _i = 0; _i < imageFiles.length; _i++) {
                 _loop(_i);
             }
-
-            return images;
         }
     }, {
         key: "checkFileExtension",
@@ -21904,11 +21940,6 @@ var FileLoader = function (_Component) {
         value: function render() {
             var _this2 = this;
 
-            var _props = this.props,
-                returnPath = _props.returnPath,
-                extension = _props.extension;
-
-
             return _react2.default.createElement(
                 "div",
                 null,
@@ -21920,7 +21951,7 @@ var FileLoader = function (_Component) {
                 _react2.default.createElement("input", { id: "file-upload", name: "images", onChange: function onChange(event) {
                         event.preventDefault();
                         console.log("Loaded files:", event.target.files);
-                        returnPath(_this2.getImagesFromInput(event.target.files, extension));
+                        _this2.getImagesFromInput(event.target.files);
                     }, type: "file", multiple: true })
             );
         }

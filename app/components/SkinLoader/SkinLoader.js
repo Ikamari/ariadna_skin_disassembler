@@ -7,39 +7,51 @@ import { bindActionCreators } from 'redux';
 import ImageLoader from "./ImageLoader"
 
 class SkinLoader extends Component {
-    cleanUpSkins(skins) {
-        let validSkins = {}, skinSizes = {};
-
-        //     const image = this.refs[`${uniqueKey}-${index}`];
-        //     const imageWidth = image.naturalWidth;
-        //     const imageHeight = image.naturalHeight;
-        //     getImageSize(index, imageHeight, imageWidth)
-
-        return {validSkins, skinSizes}
+    checkSkinDimensions(height, width) {
+        return (height === 64 || height === 32) && width === 64
     }
 
-    saveSkins(skins){
+    cleanUpSkins(skins, amount) {
+        let fileNum = 0, validSkins = {}, skinSizes = {};
 
+        for(let i = 0; i < amount; i++) {
+            let image = new Image();
+            image.onload = (e) => {
+                let height = e.target.naturalHeight, width = e.target.naturalWidth;
+                if (this.checkSkinDimensions(height, width)) {
+                    validSkins[fileNum] = skins[i];
+                    skinSizes[fileNum] = {height, width};
+                    fileNum++;
+                }
+                if(i === amount - 1) {
+                    this.saveSkins(validSkins, skinSizes)
+                }
+            };
+            image.src = skins[i];
+        }
+    }
+
+    saveSkins(skins, sizes){
+        const { uploadSkins } = this.props.skinsActions;
+        console.log("Cleaned up skins - SkinLoader:", skins, sizes);
+        uploadSkins(skins, sizes)
     }
 
     render() {
-        console.log(this.props);
         return(
-            <ImageLoader extension="png" returnPath={(skins) => this.saveSkins(this.cleanUpSkins(skins))}/>
+            <ImageLoader extension="png" returnPath={(skins, amount) => this.cleanUpSkins(skins, amount)}/>
         )
     }
 }
 
-const mapStateToProps = state => ({
-    skins: state.skins
-});
-
 // Actions
-import * as skinPartsActions from '../../actions/processStatus';
+import * as processStatusActions from '../../actions/processStatus';
+import * as skinsActions from '../../actions/skins';
 
 const mapDispatchToProps = dispatch => ({
-    changeSkinLoadingStatus: bindActionCreators(skinPartsActions, dispatch)
+    changeSkinLoadingStatus: bindActionCreators(processStatusActions, dispatch),
+    skinsActions: bindActionCreators(skinsActions, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SkinPartsCarousel)
+export default connect(null , mapDispatchToProps)(SkinLoader)
 

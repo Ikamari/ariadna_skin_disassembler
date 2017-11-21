@@ -3,7 +3,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types"
 
 export default class FileLoader extends Component {
-    getImagesFromInput (inputData, extension) {
+    getImagesFromInput (inputData) {
+        const { returnPath, extension } = this.props;
         let imageFiles = {}, images = {}, fileNum = 0;
 
         //Will remove files with wrong extension or return all files, if there in no required extension given
@@ -22,11 +23,12 @@ export default class FileLoader extends Component {
             let reader  = new FileReader();
             reader.onload = (e) => {
                 images[i] = e.target.result;
+                if(i === fileNum - 1) {
+                    returnPath(images, fileNum);
+                }
             };
             reader.readAsDataURL(imageFiles[i]);
         }
-
-        return images;
     }
 
     checkFileExtension(file, requiredExtension) {
@@ -35,15 +37,13 @@ export default class FileLoader extends Component {
     }
 
     render() {
-        const { returnPath, extension } = this.props;
-
         return (
             <div>
                 <label className="file-upload-button" htmlFor="file-upload">Загрузить</label>
                 <input id="file-upload" name="images" onChange={(event) => {
                     event.preventDefault();
                     console.log("Loaded files:", event.target.files);
-                    returnPath(this.getImagesFromInput(event.target.files, extension))
+                    this.getImagesFromInput(event.target.files)
                 }} type="file" multiple/>
             </div>
         )

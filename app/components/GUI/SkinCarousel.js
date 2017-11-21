@@ -9,9 +9,9 @@ import ImageCarousel from "./ImageCarousel"
 class SkinCarousel extends Component {
     render() {
         const { skins, updateSkins } = this.props;
-        console.log("From storage - skins:", this.props);
+        console.log("From storage skins - SkinCarousel:", this.props);
         return(
-            <ImageCarousel images={skins} removeImage={updateSkins}/>
+            <ImageCarousel images={skins} removeImage={(skins) => updateSkins.updateSkins(skins)} uniqueKey="skin"/>
         )
     }
 }
