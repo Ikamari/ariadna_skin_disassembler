@@ -111,9 +111,16 @@
 }
 
 .hidden-render {
-    /*display: none;*/
-}
-
-.ruler {
-    display: none;
+    display: block;
+    height: auto;
+    width: 50px;
+    margin: 0 auto 20px;
+    border: 1px solid purple;
+    image-rendering: optimizeSpeed;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -o-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+    image-rendering: optimize-contrast;
+    -ms-interpolation-mode: nearest-neighbor;
 }

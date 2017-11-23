@@ -15,10 +15,11 @@ export default class ImageCarousel extends Component {
     //ref={`${uniqueKey}-${index}`}
 
     removeImage(index) {
-        const { images, removeImage } = this.props;
-        let newData = images;
-        delete newData[index];
-        removeImage(newData);
+        const { removeImage } = this.props;
+        // let { images } = this.props;
+        // delete images[index];
+        // removeImage(images);
+        removeImage(index);
     }
 
     render() {

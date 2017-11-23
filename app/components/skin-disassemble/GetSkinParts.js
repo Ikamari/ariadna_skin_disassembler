@@ -3,6 +3,8 @@ import React from "react";
 // Components
 import { coordinates, extendedCoordinates } from "./PartCoordinates";
 
+let inProgress = false;
+
 const drawPartTexture = (skin, canvas, coordinates) => {
     canvas.width = coordinates[2] - coordinates[0];
     canvas.height = coordinates[3] - coordinates[1];
@@ -22,27 +24,31 @@ const drawPartTexture = (skin, canvas, coordinates) => {
                 context.canvas.width,
                 context.canvas.height
             );
+            setTimeout(() => {
+                inProgress = false;
+                return canvas.toDataURL("image/png");
+            }, 25);
     };
     image.src = skin;
 };
 
 const getPartTexture = (skin, canvas, coordinates) => {
-    drawPartTexture(skin, canvas, coordinates);
-    console.log(canvas);
+    setTimeout(() => {
+        if(!inProgress) {
+            inProgress = true;
+            console.log(drawPartTexture(skin, canvas, coordinates));
+        } else {
+            getPartTexture(skin, canvas, coordinates);
+        }
+    }, 100);
 };
 
 export const getSkinParts = (skin, index, canvas, size) => {
     let parts = {};
-    let reader  = new FileReader();
-    reader.onload = (e) => {
-        console.log("Stated");
-        Object.keys(coordinates).map((key) => parts[`${index}-${key}`] = getPartTexture(e.target.result, canvas, coordinates[key]));
-        console.log(parts);
-        size.height === 64 ?
-            Object.keys(extendedCoordinates).map((key) => parts[`${index}-${key}`] = getPartTexture(e.target.result, canvas, extendedCoordinates[key])) : undefined;
-        console.log("Finished");
-        return parts;
-    };
-    reader.readAsDataURL(skin);
+    Object.keys(coordinates).map((key) => parts[`${index}-${key}`] = getPartTexture(skin, canvas, coordinates[key]));
+    console.log(parts);
+    size.height === 64 ?
+        Object.keys(extendedCoordinates).map((key) => parts[`${index}-${key}`] = getPartTexture(skin, canvas, extendedCoordinates[key])) : undefined;
+    return parts;
 };
 

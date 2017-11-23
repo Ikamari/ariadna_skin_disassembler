@@ -6,8 +6,8 @@ export const uploadSkins = (skins, sizes) => ({
     }
 });
 
-export const updateSkins = (skins) => ({
+export const updateSkins = (skin) => ({
     type: "UPDATE_SKINS",
-    payload: skins
+    payload: skin
 });
 

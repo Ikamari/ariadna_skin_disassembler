@@ -1,15 +1,17 @@
 // React
 import React, { Component } from "react";
+// Redux
+import { connect } from "react-redux";
 // Components
 import { getSkinParts } from "./GetSkinParts";
 
-export default class SkinDisassemble extends Component {
+class SkinDisassemble extends Component {
     disassembleSkins() {
-        const { skins, skinSizes, partLoader } = this.props;
+        const { skins, sizes } = this.props.skins;
         let parts = {};
 
-        Object.keys(skins).map((key) => Object.assign(parts, getSkinParts(skins[key], key, this.refs.offscreenCanvas, skinSizes[key])));
-        partLoader(parts);
+        Object.keys(skins).map((key) => Object.assign(parts, getSkinParts(skins[key], key, this.refs.offscreenCanvas, sizes[key])));
+        console.log(parts);
     }
 
     render() {
@@ -22,3 +24,8 @@ export default class SkinDisassemble extends Component {
     }
 }
 
+const mapStateToProps = state => ({
+    skins: state.skins
+});
+
+export default connect(mapStateToProps)(SkinDisassemble)
