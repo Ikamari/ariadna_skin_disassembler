@@ -2,16 +2,82 @@
 import React, { Component } from "react";
 // Redux
 import { connect } from "react-redux";
+import { bindActionCreators } from 'redux';
 // Components
-import { getSkinParts } from "./GetSkinParts";
+import { coordinates, extendedCoordinates } from "./PartCoordinates";
 
 class SkinDisassemble extends Component {
-    disassembleSkins() {
-        const { skins, sizes } = this.props.skins;
-        let parts = {};
+    constructor(props) {
+        super(props);
 
-        Object.keys(skins).map((key) => Object.assign(parts, getSkinParts(skins[key], key, this.refs.offscreenCanvas, sizes[key])));
-        console.log(parts);
+        //Used to tell when another part can be rendered
+        this.inProgress = false
+    }
+
+    drawPartTexture(skin, coordinates, index, key) {
+        //Get size of skin part to know which size must be canvas
+        const canvas = this.refs.offscreenCanvas;
+        const blank = this.refs.blank;
+        const { addSkinPart } = this.props.SkinPartsActions;
+        console.log(this.props);
+        canvas.width = coordinates[2] - coordinates[0];
+        canvas.height = coordinates[3] - coordinates[1];
+        blank.width = canvas.width;
+        blank.height = canvas.height;
+        let context = canvas.getContext('2d');
+
+        //Draw part of skin on canvas
+        let image = new Image();
+        image.onload = () => {
+            context.drawImage(
+                image,
+                coordinates[0],
+                coordinates[1],
+                context.canvas.width,
+                context.canvas.height,
+                0,
+                0,
+                context.canvas.width,
+                context.canvas.height
+            );
+            setTimeout(() => {
+                //Write rendered part to state and tell, that new part can be rendered
+                this.inProgress = false;
+                if(canvas.toDataURL() !== blank.toDataURL()) {
+                    addSkinPart(canvas.toDataURL("image/png"), [`${index}-${key}`]);
+                }
+            }, 5);
+        };
+        image.src = skin;
+    }
+
+    renderQueue(skin, coordinates, index, key) {
+        setTimeout(() => {
+            if (!this.inProgress) {
+                this.inProgress = true;
+                this.drawPartTexture(skin, coordinates, index, key);
+            } else {
+                this.renderQueue(skin, coordinates, index, key);
+            }
+        }, 30);
+    }
+
+    getSkinParts(skin, index, size) {
+        //Get main parts of skin (Skin layout version is pre-1.8)
+        Object.keys(coordinates).map((key) => this.renderQueue(skin, coordinates[key], index, key));
+        size.height === 64 ?
+            //Get additional parts of skin (If skin layout version is +1.8)
+            Object.keys(extendedCoordinates).map((key) => this.renderQueue(skin, extendedCoordinates[key], index, key)) : undefined;
+
+    }
+
+    disassembleSkins() {
+        const {skins, sizes} = this.props.skins;
+        const { removeAllSkinParts } = this.props.SkinPartsActions;
+        //Clear old parts
+        removeAllSkinParts();
+        //Give to function every skin and it's dimensions (height & width)
+        Object.keys(skins).map((key) => this.getSkinParts(skins[key], key, sizes[key]));
     }
 
     render() {
@@ -19,13 +85,23 @@ class SkinDisassemble extends Component {
             <div className="disassembler">
                 <button className="button" onClick={() => this.disassembleSkins()}>Разобрать скины</button>
                 <canvas className="hidden-render" ref="offscreenCanvas"/>
+                <canvas className="hidden-render" ref="blank"/>
             </div>
         )
     }
 }
 
+// Actions
+import * as processStatus from '../../actions/processStatus';
+import * as skinParts from '../../actions/skinParts';
+
+const mapDispatchToProps = dispatch => ({
+    changeLoadingStatus: bindActionCreators(processStatus.changePartLoadingStatus, dispatch),
+    SkinPartsActions: bindActionCreators(skinParts, dispatch)
+});
+
 const mapStateToProps = state => ({
     skins: state.skins
 });
 
-export default connect(mapStateToProps)(SkinDisassemble)
+export default connect(mapStateToProps, mapDispatchToProps)(SkinDisassemble)

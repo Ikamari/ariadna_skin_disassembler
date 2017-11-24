@@ -316,6 +316,25 @@ module.exports = emptyFunction;
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Provider__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__connect_connect__ = __webpack_require__(49);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Provider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["b"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return __WEBPACK_IMPORTED_MODULE_2__connect_connect__["a"]; });
+
+
+
+
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__createStore__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__combineReducers__ = __webpack_require__(64);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__bindActionCreators__ = __webpack_require__(65);
@@ -348,7 +367,7 @@ if (process.env.NODE_ENV !== 'production' && typeof isCrushed.name === 'string' 
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -445,7 +464,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -503,25 +522,6 @@ function invariant(condition, format, a, b, c, d, e, f) {
 
 module.exports = invariant;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 6 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Provider__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__connect_connect__ = __webpack_require__(49);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Provider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["b"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return __WEBPACK_IMPORTED_MODULE_2__connect_connect__["a"]; });
-
-
-
-
-
 
 /***/ }),
 /* 7 */
@@ -631,7 +631,7 @@ module.exports = warning;
 
 
 if (process.env.NODE_ENV !== 'production') {
-  var invariant = __webpack_require__(5);
+  var invariant = __webpack_require__(6);
   var warning = __webpack_require__(8);
   var ReactPropTypesSecret = __webpack_require__(10);
   var loggedTypeFailures = {};
@@ -1935,96 +1935,7 @@ function verifyPlainObject(value, displayName, methodName) {
 }
 
 /***/ }),
-/* 29 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // React
-
-
-var ImageCarousel = function (_Component) {
-    _inherits(ImageCarousel, _Component);
-
-    function ImageCarousel() {
-        _classCallCheck(this, ImageCarousel);
-
-        return _possibleConstructorReturn(this, (ImageCarousel.__proto__ || Object.getPrototypeOf(ImageCarousel)).apply(this, arguments));
-    }
-
-    _createClass(ImageCarousel, [{
-        key: "createImageBlock",
-        value: function createImageBlock(image, index) {
-            var _this2 = this;
-
-            var uniqueKey = this.props.uniqueKey;
-
-            return _react2.default.createElement(
-                "div",
-                { key: uniqueKey + "-" + index, className: "image-carousel-element" },
-                _react2.default.createElement(
-                    "div",
-                    { className: "remove-button", onClick: function onClick() {
-                            return _this2.removeImage(index);
-                        } },
-                    "x"
-                ),
-                _react2.default.createElement("img", { src: image })
-            );
-        }
-
-        //ref={`${uniqueKey}-${index}`}
-
-    }, {
-        key: "removeImage",
-        value: function removeImage(index) {
-            var removeImage = this.props.removeImage;
-            // let { images } = this.props;
-            // delete images[index];
-            // removeImage(images);
-
-            removeImage(index);
-        }
-    }, {
-        key: "render",
-        value: function render() {
-            var _this3 = this;
-
-            var images = this.props.images;
-
-            return _react2.default.createElement(
-                "div",
-                { className: "image-carousel" },
-                Object.keys(images).map(function (key) {
-                    return _this3.createImageBlock(images[key], key);
-                })
-            );
-        }
-    }]);
-
-    return ImageCarousel;
-}(_react.Component);
-
-exports.default = ImageCarousel;
-
-/***/ }),
+/* 29 */,
 /* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2066,7 +1977,7 @@ var _reactDom = __webpack_require__(34);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _reactRedux = __webpack_require__(6);
+var _reactRedux = __webpack_require__(3);
 
 var _configureStore = __webpack_require__(71);
 
@@ -2104,7 +2015,7 @@ _reactDom2.default.render(_react2.default.createElement(
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-var m=__webpack_require__(4),n=__webpack_require__(7),p=__webpack_require__(2);
+var m=__webpack_require__(5),n=__webpack_require__(7),p=__webpack_require__(2);
 function q(a){for(var b=arguments.length-1,e="Minified React error #"+a+"; visit http://facebook.github.io/react/docs/error-decoder.html?invariant\x3d"+a,d=0;d<b;d++)e+="\x26args[]\x3d"+encodeURIComponent(arguments[d+1]);b=Error(e+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings.");b.name="Invariant Violation";b.framesToPop=1;throw b;}
 var r={isMounted:function(){return!1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}};function t(a,b,e){this.props=a;this.context=b;this.refs=n;this.updater=e||r}t.prototype.isReactComponent={};t.prototype.setState=function(a,b){"object"!==typeof a&&"function"!==typeof a&&null!=a?q("85"):void 0;this.updater.enqueueSetState(this,a,b,"setState")};t.prototype.forceUpdate=function(a){this.updater.enqueueForceUpdate(this,a,"forceUpdate")};
 function u(a,b,e){this.props=a;this.context=b;this.refs=n;this.updater=e||r}function v(){}v.prototype=t.prototype;var w=u.prototype=new v;w.constructor=u;m(w,t.prototype);w.isPureReactComponent=!0;function x(a,b,e){this.props=a;this.context=b;this.refs=n;this.updater=e||r}var y=x.prototype=new v;y.constructor=x;m(y,t.prototype);y.unstable_isAsyncReactComponent=!0;y.render=function(){return this.props.children};
@@ -2140,8 +2051,8 @@ if (process.env.NODE_ENV !== "production") {
   (function() {
 'use strict';
 
-var _assign = __webpack_require__(4);
-var invariant = __webpack_require__(5);
+var _assign = __webpack_require__(5);
+var invariant = __webpack_require__(6);
 var emptyObject = __webpack_require__(7);
 var warning = __webpack_require__(8);
 var emptyFunction = __webpack_require__(2);
@@ -3533,7 +3444,7 @@ if (process.env.NODE_ENV === 'production') {
 /*
  Modernizr 3.0.0pre (Custom Build) | MIT
 */
-var aa=__webpack_require__(1),m=__webpack_require__(14),A=__webpack_require__(4),B=__webpack_require__(2),ca=__webpack_require__(15),da=__webpack_require__(16),ea=__webpack_require__(17),ha=__webpack_require__(18),ia=__webpack_require__(19),C=__webpack_require__(7);
+var aa=__webpack_require__(1),m=__webpack_require__(14),A=__webpack_require__(5),B=__webpack_require__(2),ca=__webpack_require__(15),da=__webpack_require__(16),ea=__webpack_require__(17),ha=__webpack_require__(18),ia=__webpack_require__(19),C=__webpack_require__(7);
 function D(a){for(var b=arguments.length-1,c="Minified React error #"+a+"; visit http://facebook.github.io/react/docs/error-decoder.html?invariant\x3d"+a,d=0;d<b;d++)c+="\x26args[]\x3d"+encodeURIComponent(arguments[d+1]);b=Error(c+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings.");b.name="Invariant Violation";b.framesToPop=1;throw b;}aa?void 0:D("227");
 var la={children:!0,dangerouslySetInnerHTML:!0,defaultValue:!0,defaultChecked:!0,innerHTML:!0,suppressContentEditableWarning:!0,suppressHydrationWarning:!0,style:!0};function qa(a,b){return(a&b)===b}
 var ra={MUST_USE_PROPERTY:1,HAS_BOOLEAN_VALUE:4,HAS_NUMERIC_VALUE:8,HAS_POSITIVE_NUMERIC_VALUE:24,HAS_OVERLOADED_BOOLEAN_VALUE:32,HAS_STRING_BOOLEAN_VALUE:64,injectDOMPropertyConfig:function(a){var b=ra,c=a.Properties||{},d=a.DOMAttributeNamespaces||{},e=a.DOMAttributeNames||{};a=a.DOMMutationMethods||{};for(var f in c){sa.hasOwnProperty(f)?D("48",f):void 0;var g=f.toLowerCase(),k=c[f];g={attributeName:g,attributeNamespace:null,propertyName:f,mutationMethod:null,mustUseProperty:qa(k,b.MUST_USE_PROPERTY),
@@ -3828,10 +3739,10 @@ if (process.env.NODE_ENV !== "production") {
 'use strict';
 
 var React = __webpack_require__(1);
-var invariant = __webpack_require__(5);
+var invariant = __webpack_require__(6);
 var warning = __webpack_require__(8);
 var ExecutionEnvironment = __webpack_require__(14);
-var _assign = __webpack_require__(4);
+var _assign = __webpack_require__(5);
 var emptyFunction$1 = __webpack_require__(2);
 var EventListener = __webpack_require__(15);
 var getActiveElement = __webpack_require__(16);
@@ -19472,9 +19383,9 @@ function createProvider() {
 
 
 var emptyFunction = __webpack_require__(2);
-var invariant = __webpack_require__(5);
+var invariant = __webpack_require__(6);
 var warning = __webpack_require__(8);
-var assign = __webpack_require__(4);
+var assign = __webpack_require__(5);
 
 var ReactPropTypesSecret = __webpack_require__(10);
 var checkPropTypes = __webpack_require__(9);
@@ -20022,7 +19933,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 
 
 var emptyFunction = __webpack_require__(2);
-var invariant = __webpack_require__(5);
+var invariant = __webpack_require__(6);
 var ReactPropTypesSecret = __webpack_require__(10);
 
 module.exports = function() {
@@ -20463,7 +20374,7 @@ function shallowEqual(objA, objB) {
 /* unused harmony export whenMapDispatchToPropsIsFunction */
 /* unused harmony export whenMapDispatchToPropsIsMissing */
 /* unused harmony export whenMapDispatchToPropsIsObject */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_redux__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_redux__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__wrapMapToProps__ = __webpack_require__(27);
 
 
@@ -21287,7 +21198,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _redux = __webpack_require__(3);
+var _redux = __webpack_require__(4);
 
 var _reducers = __webpack_require__(72);
 
@@ -21312,7 +21223,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _redux = __webpack_require__(3);
+var _redux = __webpack_require__(4);
 
 var _skins = __webpack_require__(73);
 
@@ -21397,14 +21308,24 @@ var skinParts = function skinParts() {
     var action = arguments[1];
 
     switch (action.type) {
-        case "UPLOAD_PARTS":
-            return { parts: action.payload };
-        case "UPDATE_PARTS":
+        case "ADD_PART":
             {
                 var newState = {};
                 Object.assign(newState, state.parts);
-                delete newState[action.payload];
+                newState[action.payload.key] = action.payload.part;
                 return { parts: newState };
+            }
+        case "REMOVE_PART":
+            {
+                var _newState = {};
+                Object.assign(_newState, state.parts);
+                delete _newState[action.payload];
+                return { parts: _newState };
+            }
+        case "REMOVE_ALL_PARTS":
+            {
+                var _newState2 = {};
+                return { parts: _newState2 };
             }
         default:
             return state;
@@ -21486,15 +21407,15 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(6);
+var _reactRedux = __webpack_require__(3);
 
-var _SkinCarousel = __webpack_require__(78);
+var _SkinPalette = __webpack_require__(88);
 
-var _SkinCarousel2 = _interopRequireDefault(_SkinCarousel);
+var _SkinPalette2 = _interopRequireDefault(_SkinPalette);
 
-var _SkinPartsCarousel = __webpack_require__(79);
+var _SkinPartsPalette = __webpack_require__(89);
 
-var _SkinPartsCarousel2 = _interopRequireDefault(_SkinPartsCarousel);
+var _SkinPartsPalette2 = _interopRequireDefault(_SkinPartsPalette);
 
 var _SkinLoader = __webpack_require__(81);
 
@@ -21531,9 +21452,9 @@ var App = function (_Component) {
                 'div',
                 { className: 'app' },
                 _react2.default.createElement(_SkinLoader2.default, null),
-                _react2.default.createElement(_SkinCarousel2.default, null),
+                _react2.default.createElement(_SkinPalette2.default, null),
                 _react2.default.createElement(_SkinDisassemble2.default, null),
-                _react2.default.createElement(_SkinPartsCarousel2.default, null)
+                _react2.default.createElement(_SkinPartsPalette2.default, null)
             );
         }
     }]);
@@ -21544,178 +21465,8 @@ var App = function (_Component) {
 exports.default = App;
 
 /***/ }),
-/* 78 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRedux = __webpack_require__(6);
-
-var _redux = __webpack_require__(3);
-
-var _ImageCarousel = __webpack_require__(29);
-
-var _ImageCarousel2 = _interopRequireDefault(_ImageCarousel);
-
-var _skins = __webpack_require__(30);
-
-var skinActions = _interopRequireWildcard(_skins);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // React
-
-// Redux
-
-// Components
-
-
-var SkinCarousel = function (_Component) {
-    _inherits(SkinCarousel, _Component);
-
-    function SkinCarousel() {
-        _classCallCheck(this, SkinCarousel);
-
-        return _possibleConstructorReturn(this, (SkinCarousel.__proto__ || Object.getPrototypeOf(SkinCarousel)).apply(this, arguments));
-    }
-
-    _createClass(SkinCarousel, [{
-        key: "render",
-        value: function render() {
-            var _props = this.props,
-                skins = _props.skins,
-                updateSkins = _props.updateSkins;
-
-            console.log("From storage skins - SkinCarousel:", this.props);
-            return _react2.default.createElement(_ImageCarousel2.default, { images: skins, removeImage: function removeImage(skins) {
-                    return updateSkins.updateSkins(skins);
-                }, uniqueKey: "skin" });
-        }
-    }]);
-
-    return SkinCarousel;
-}(_react.Component);
-
-var mapStateToProps = function mapStateToProps(state) {
-    return {
-        skins: state.skins.skins
-    };
-};
-
-// Actions
-
-
-var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-    return {
-        updateSkins: (0, _redux.bindActionCreators)(skinActions, dispatch)
-    };
-};
-
-exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(SkinCarousel);
-
-/***/ }),
-/* 79 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRedux = __webpack_require__(6);
-
-var _redux = __webpack_require__(3);
-
-var _ImageCarousel = __webpack_require__(29);
-
-var _ImageCarousel2 = _interopRequireDefault(_ImageCarousel);
-
-var _skinParts = __webpack_require__(80);
-
-var skinPartsActions = _interopRequireWildcard(_skinParts);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // React
-
-// Redux
-
-// Components
-
-
-var SkinPartsCarousel = function (_Component) {
-    _inherits(SkinPartsCarousel, _Component);
-
-    function SkinPartsCarousel() {
-        _classCallCheck(this, SkinPartsCarousel);
-
-        return _possibleConstructorReturn(this, (SkinPartsCarousel.__proto__ || Object.getPrototypeOf(SkinPartsCarousel)).apply(this, arguments));
-    }
-
-    _createClass(SkinPartsCarousel, [{
-        key: "render",
-        value: function render() {
-            var _props = this.props,
-                parts = _props.parts,
-                updateSkinParts = _props.updateSkinParts;
-
-            console.log("From storage skinParts - SkinPartsCarousel:", this.props);
-            return _react2.default.createElement(_ImageCarousel2.default, { images: parts, removeImage: updateSkinParts.updateSkinParts, uniqueKey: "part" });
-        }
-    }]);
-
-    return SkinPartsCarousel;
-}(_react.Component);
-
-var mapStateToProps = function mapStateToProps(state) {
-    return {
-        parts: state.skinParts.parts
-    };
-};
-
-// Actions
-
-
-var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-    return {
-        updateSkinParts: (0, _redux.bindActionCreators)(skinPartsActions, dispatch)
-    };
-};
-
-exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(SkinPartsCarousel);
-
-/***/ }),
+/* 78 */,
+/* 79 */,
 /* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -21725,17 +21476,26 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var uploadSkins = exports.uploadSkins = function uploadSkins(parts) {
+var addSkinPart = exports.addSkinPart = function addSkinPart(part, key) {
     return {
-        type: "UPLOAD_PARTS",
-        payload: parts
+        type: "ADD_PART",
+        payload: {
+            part: part,
+            key: key
+        }
     };
 };
 
-var updateSkinParts = exports.updateSkinParts = function updateSkinParts(part) {
+var removeSkinPart = exports.removeSkinPart = function removeSkinPart(part) {
     return {
-        type: "UPDATE_PARTS",
+        type: "REMOVE_PART",
         payload: part
+    };
+};
+
+var removeAllSkinParts = exports.removeAllSkinParts = function removeAllSkinParts() {
+    return {
+        type: "REMOVE_ALL_PARTS"
     };
 };
 
@@ -21756,9 +21516,9 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(6);
+var _reactRedux = __webpack_require__(3);
 
-var _redux = __webpack_require__(3);
+var _redux = __webpack_require__(4);
 
 var _ImageLoader = __webpack_require__(82);
 
@@ -22031,9 +21791,21 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(6);
+var _reactRedux = __webpack_require__(3);
 
-var _GetSkinParts = __webpack_require__(85);
+var _redux = __webpack_require__(4);
+
+var _PartCoordinates = __webpack_require__(86);
+
+var _processStatus = __webpack_require__(83);
+
+var processStatus = _interopRequireWildcard(_processStatus);
+
+var _skinParts = __webpack_require__(80);
+
+var skinParts = _interopRequireWildcard(_skinParts);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22051,32 +21823,97 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var SkinDisassemble = function (_Component) {
     _inherits(SkinDisassemble, _Component);
 
-    function SkinDisassemble() {
+    function SkinDisassemble(props) {
         _classCallCheck(this, SkinDisassemble);
 
-        return _possibleConstructorReturn(this, (SkinDisassemble.__proto__ || Object.getPrototypeOf(SkinDisassemble)).apply(this, arguments));
+        //Used to tell when another part can be rendered
+        var _this = _possibleConstructorReturn(this, (SkinDisassemble.__proto__ || Object.getPrototypeOf(SkinDisassemble)).call(this, props));
+
+        _this.inProgress = false;
+        return _this;
     }
 
     _createClass(SkinDisassemble, [{
+        key: "drawPartTexture",
+        value: function drawPartTexture(skin, coordinates, index, key) {
+            var _this2 = this;
+
+            //Get size of skin part to know which size must be canvas
+            var canvas = this.refs.offscreenCanvas;
+            var blank = this.refs.blank;
+            var addSkinPart = this.props.SkinPartsActions.addSkinPart;
+
+            console.log(this.props);
+            canvas.width = coordinates[2] - coordinates[0];
+            canvas.height = coordinates[3] - coordinates[1];
+            blank.width = canvas.width;
+            blank.height = canvas.height;
+            var context = canvas.getContext('2d');
+
+            //Draw part of skin on canvas
+            var image = new Image();
+            image.onload = function () {
+                context.drawImage(image, coordinates[0], coordinates[1], context.canvas.width, context.canvas.height, 0, 0, context.canvas.width, context.canvas.height);
+                setTimeout(function () {
+                    //Write rendered part to state and tell, that new part can be rendered
+                    _this2.inProgress = false;
+                    if (canvas.toDataURL() !== blank.toDataURL()) {
+                        addSkinPart(canvas.toDataURL("image/png"), [index + "-" + key]);
+                    }
+                }, 5);
+            };
+            image.src = skin;
+        }
+    }, {
+        key: "renderQueue",
+        value: function renderQueue(skin, coordinates, index, key) {
+            var _this3 = this;
+
+            setTimeout(function () {
+                if (!_this3.inProgress) {
+                    _this3.inProgress = true;
+                    _this3.drawPartTexture(skin, coordinates, index, key);
+                } else {
+                    _this3.renderQueue(skin, coordinates, index, key);
+                }
+            }, 30);
+        }
+    }, {
+        key: "getSkinParts",
+        value: function getSkinParts(skin, index, size) {
+            var _this4 = this;
+
+            //Get main parts of skin (Skin layout version is pre-1.8)
+            Object.keys(_PartCoordinates.coordinates).map(function (key) {
+                return _this4.renderQueue(skin, _PartCoordinates.coordinates[key], index, key);
+            });
+            size.height === 64 ?
+            //Get additional parts of skin (If skin layout version is +1.8)
+            Object.keys(_PartCoordinates.extendedCoordinates).map(function (key) {
+                return _this4.renderQueue(skin, _PartCoordinates.extendedCoordinates[key], index, key);
+            }) : undefined;
+        }
+    }, {
         key: "disassembleSkins",
         value: function disassembleSkins() {
-            var _this2 = this;
+            var _this5 = this;
 
             var _props$skins = this.props.skins,
                 skins = _props$skins.skins,
                 sizes = _props$skins.sizes;
+            var removeAllSkinParts = this.props.SkinPartsActions.removeAllSkinParts;
+            //Clear old parts
 
-            var parts = {};
-
+            removeAllSkinParts();
+            //Give to function every skin and it's dimensions (height & width)
             Object.keys(skins).map(function (key) {
-                return Object.assign(parts, (0, _GetSkinParts.getSkinParts)(skins[key], key, _this2.refs.offscreenCanvas, sizes[key]));
+                return _this5.getSkinParts(skins[key], key, sizes[key]);
             });
-            console.log(parts);
         }
     }, {
         key: "render",
         value: function render() {
-            var _this3 = this;
+            var _this6 = this;
 
             return _react2.default.createElement(
                 "div",
@@ -22084,11 +21921,12 @@ var SkinDisassemble = function (_Component) {
                 _react2.default.createElement(
                     "button",
                     { className: "button", onClick: function onClick() {
-                            return _this3.disassembleSkins();
+                            return _this6.disassembleSkins();
                         } },
                     "\u0420\u0430\u0437\u043E\u0431\u0440\u0430\u0442\u044C \u0441\u043A\u0438\u043D\u044B"
                 ),
-                _react2.default.createElement("canvas", { className: "hidden-render", ref: "offscreenCanvas" })
+                _react2.default.createElement("canvas", { className: "hidden-render", ref: "offscreenCanvas" }),
+                _react2.default.createElement("canvas", { className: "hidden-render", ref: "blank" })
             );
         }
     }]);
@@ -22096,80 +21934,26 @@ var SkinDisassemble = function (_Component) {
     return SkinDisassemble;
 }(_react.Component);
 
+// Actions
+
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+    return {
+        changeLoadingStatus: (0, _redux.bindActionCreators)(processStatus.changePartLoadingStatus, dispatch),
+        SkinPartsActions: (0, _redux.bindActionCreators)(skinParts, dispatch)
+    };
+};
+
 var mapStateToProps = function mapStateToProps(state) {
     return {
         skins: state.skins
     };
 };
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps)(SkinDisassemble);
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(SkinDisassemble);
 
 /***/ }),
-/* 85 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.getSkinParts = undefined;
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _PartCoordinates = __webpack_require__(86);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// React
-var inProgress = false;
-// Components
-
-
-var drawPartTexture = function drawPartTexture(skin, canvas, coordinates) {
-    canvas.width = coordinates[2] - coordinates[0];
-    canvas.height = coordinates[3] - coordinates[1];
-    console.log(coordinates, canvas.width, canvas.height);
-    var context = canvas.getContext('2d');
-
-    var image = new Image();
-    image.onload = function () {
-        context.drawImage(image, coordinates[0], coordinates[1], context.canvas.width, context.canvas.height, 0, 0, context.canvas.width, context.canvas.height);
-        setTimeout(function () {
-            inProgress = false;
-            return canvas.toDataURL("image/png");
-        }, 25);
-    };
-    image.src = skin;
-};
-
-var getPartTexture = function getPartTexture(skin, canvas, coordinates) {
-    setTimeout(function () {
-        if (!inProgress) {
-            inProgress = true;
-            console.log(drawPartTexture(skin, canvas, coordinates));
-        } else {
-            getPartTexture(skin, canvas, coordinates);
-        }
-    }, 100);
-};
-
-var getSkinParts = exports.getSkinParts = function getSkinParts(skin, index, canvas, size) {
-    var parts = {};
-    Object.keys(_PartCoordinates.coordinates).map(function (key) {
-        return parts[index + "-" + key] = getPartTexture(skin, canvas, _PartCoordinates.coordinates[key]);
-    });
-    console.log(parts);
-    size.height === 64 ? Object.keys(_PartCoordinates.extendedCoordinates).map(function (key) {
-        return parts[index + "-" + key] = getPartTexture(skin, canvas, _PartCoordinates.extendedCoordinates[key]);
-    }) : undefined;
-    return parts;
-};
-
-/***/ }),
+/* 85 */,
 /* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -22203,6 +21987,268 @@ var extendedCoordinates = exports.extendedCoordinates = {
     "left-leg-armor": [0, 48, 16, 64],
     "right-leg-armor": [0, 32, 16, 48]
 };
+
+/***/ }),
+/* 87 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // React
+
+
+var ImagePalette = function (_Component) {
+    _inherits(ImagePalette, _Component);
+
+    function ImagePalette() {
+        _classCallCheck(this, ImagePalette);
+
+        return _possibleConstructorReturn(this, (ImagePalette.__proto__ || Object.getPrototypeOf(ImagePalette)).apply(this, arguments));
+    }
+
+    _createClass(ImagePalette, [{
+        key: "createImageBlock",
+        value: function createImageBlock(image, index) {
+            var _this2 = this;
+
+            var uniqueKey = this.props.uniqueKey;
+
+            return _react2.default.createElement(
+                "div",
+                { key: uniqueKey + "-" + index, className: "image-carousel-element" },
+                _react2.default.createElement(
+                    "div",
+                    { className: "remove-button", onClick: function onClick() {
+                            return _this2.removeImage(index);
+                        } },
+                    "x"
+                ),
+                _react2.default.createElement("img", { src: image })
+            );
+        }
+
+        //ref={`${uniqueKey}-${index}`}
+
+    }, {
+        key: "removeImage",
+        value: function removeImage(index) {
+            var removeImage = this.props.removeImage;
+            // let { images } = this.props;
+            // delete images[index];
+            // removeImage(images);
+
+            removeImage(index);
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            var _this3 = this;
+
+            var images = this.props.images;
+
+            return _react2.default.createElement(
+                "div",
+                { className: "image-carousel" },
+                Object.keys(images).map(function (key) {
+                    return _this3.createImageBlock(images[key], key);
+                })
+            );
+        }
+    }]);
+
+    return ImagePalette;
+}(_react.Component);
+
+exports.default = ImagePalette;
+
+/***/ }),
+/* 88 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(3);
+
+var _redux = __webpack_require__(4);
+
+var _ImagePalette = __webpack_require__(87);
+
+var _ImagePalette2 = _interopRequireDefault(_ImagePalette);
+
+var _skins = __webpack_require__(30);
+
+var skinActions = _interopRequireWildcard(_skins);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // React
+
+// Redux
+
+// Components
+
+
+var SkinPalette = function (_Component) {
+    _inherits(SkinPalette, _Component);
+
+    function SkinPalette() {
+        _classCallCheck(this, SkinPalette);
+
+        return _possibleConstructorReturn(this, (SkinPalette.__proto__ || Object.getPrototypeOf(SkinPalette)).apply(this, arguments));
+    }
+
+    _createClass(SkinPalette, [{
+        key: "render",
+        value: function render() {
+            var _props = this.props,
+                skins = _props.skins,
+                updateSkins = _props.updateSkins;
+
+            console.log("From storage skins - SkinCarousel:", this.props);
+            return _react2.default.createElement(_ImagePalette2.default, { images: skins, removeImage: function removeImage(skins) {
+                    return updateSkins.updateSkins(skins);
+                }, uniqueKey: "skin" });
+        }
+    }]);
+
+    return SkinPalette;
+}(_react.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+    return {
+        skins: state.skins.skins
+    };
+};
+
+// Actions
+
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+    return {
+        updateSkins: (0, _redux.bindActionCreators)(skinActions, dispatch)
+    };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(SkinPalette);
+
+/***/ }),
+/* 89 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(3);
+
+var _redux = __webpack_require__(4);
+
+var _ImagePalette = __webpack_require__(87);
+
+var _ImagePalette2 = _interopRequireDefault(_ImagePalette);
+
+var _skinParts = __webpack_require__(80);
+
+var skinPartsActions = _interopRequireWildcard(_skinParts);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // React
+
+// Redux
+
+// Components
+
+
+var SkinPartsPalette = function (_Component) {
+    _inherits(SkinPartsPalette, _Component);
+
+    function SkinPartsPalette() {
+        _classCallCheck(this, SkinPartsPalette);
+
+        return _possibleConstructorReturn(this, (SkinPartsPalette.__proto__ || Object.getPrototypeOf(SkinPartsPalette)).apply(this, arguments));
+    }
+
+    _createClass(SkinPartsPalette, [{
+        key: "render",
+        value: function render() {
+            var _props = this.props,
+                parts = _props.parts,
+                updateSkinParts = _props.updateSkinParts;
+
+            console.log("From storage skinParts - SkinPartsCarousel:", this.props);
+            return _react2.default.createElement(_ImagePalette2.default, { images: parts, removeImage: updateSkinParts.updateSkinParts, uniqueKey: "part" });
+        }
+    }]);
+
+    return SkinPartsPalette;
+}(_react.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+    return {
+        parts: state.skinParts.parts
+    };
+};
+
+// Actions
+
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+    return {
+        updateSkinParts: (0, _redux.bindActionCreators)(skinPartsActions, dispatch)
+    };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(SkinPartsPalette);
 
 /***/ })
 /******/ ]);

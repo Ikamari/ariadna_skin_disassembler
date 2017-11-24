@@ -1,7 +1,7 @@
 // React
 import React, { Component } from "react";
 
-export default class ImageCarousel extends Component {
+export default class ImagePalette extends Component {
     createImageBlock(image, index) {
         const { uniqueKey } = this.props;
         return(

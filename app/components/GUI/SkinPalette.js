@@ -4,14 +4,14 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 // Components
-import ImageCarousel from "./ImageCarousel"
+import ImagePalette from "./ImagePalette"
 
-class SkinCarousel extends Component {
+class SkinPalette extends Component {
     render() {
         const { skins, updateSkins } = this.props;
         console.log("From storage skins - SkinCarousel:", this.props);
         return(
-            <ImageCarousel images={skins} removeImage={(skins) => updateSkins.updateSkins(skins)} uniqueKey="skin"/>
+            <ImagePalette images={skins} removeImage={(skins) => updateSkins.updateSkins(skins)} uniqueKey="skin"/>
         )
     }
 }
@@ -27,4 +27,4 @@ const mapDispatchToProps = dispatch => ({
     updateSkins: bindActionCreators(skinActions, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SkinCarousel)
+export default connect(mapStateToProps, mapDispatchToProps)(SkinPalette)
