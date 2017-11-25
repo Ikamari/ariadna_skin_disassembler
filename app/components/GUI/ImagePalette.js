@@ -12,13 +12,8 @@ export default class ImagePalette extends Component {
         )
     }
 
-    //ref={`${uniqueKey}-${index}`}
-
     removeImage(index) {
         const { removeImage } = this.props;
-        // let { images } = this.props;
-        // delete images[index];
-        // removeImage(images);
         removeImage(index);
     }
 

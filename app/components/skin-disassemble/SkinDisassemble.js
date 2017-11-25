@@ -19,7 +19,7 @@ class SkinDisassemble extends Component {
         const canvas = this.refs.offscreenCanvas;
         const blank = this.refs.blank;
         const { addSkinPart } = this.props.SkinPartsActions;
-        console.log(this.props);
+
         canvas.width = coordinates[2] - coordinates[0];
         canvas.height = coordinates[3] - coordinates[1];
         blank.width = canvas.width;
@@ -40,18 +40,18 @@ class SkinDisassemble extends Component {
                 context.canvas.width,
                 context.canvas.height
             );
-            setTimeout(() => {
-                //Write rendered part to state and tell, that new part can be rendered
-                this.inProgress = false;
-                if(canvas.toDataURL() !== blank.toDataURL()) {
-                    addSkinPart(canvas.toDataURL("image/png"), [`${index}-${key}`]);
-                }
-            }, 5);
+            //Write rendered part to state and tell, that new part can be rendered
+            this.inProgress = false;
+            //Checks is current part is blank
+            if(canvas.toDataURL() !== blank.toDataURL()) {
+                addSkinPart(canvas.toDataURL("image/png"), [`${index}-${key}`]);
+            }
         };
         image.src = skin;
     }
 
     renderQueue(skin, coordinates, index, key) {
+        //Wait n ms before try to render new part again
         setTimeout(() => {
             if (!this.inProgress) {
                 this.inProgress = true;
@@ -59,7 +59,7 @@ class SkinDisassemble extends Component {
             } else {
                 this.renderQueue(skin, coordinates, index, key);
             }
-        }, 30);
+        }, 5);
     }
 
     getSkinParts(skin, index, size) {
@@ -74,7 +74,6 @@ class SkinDisassemble extends Component {
     disassembleSkins() {
         const {skins, sizes} = this.props.skins;
         const { removeAllSkinParts } = this.props.SkinPartsActions;
-        //Clear old parts
         removeAllSkinParts();
         //Give to function every skin and it's dimensions (height & width)
         Object.keys(skins).map((key) => this.getSkinParts(skins[key], key, sizes[key]));

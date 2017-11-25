@@ -6,8 +6,11 @@ export const uploadSkins = (skins, sizes) => ({
     }
 });
 
-export const updateSkins = (skin) => ({
-    type: "UPDATE_SKINS",
+export const removeSkin = (skin) => ({
+    type: "REMOVE_SKIN",
     payload: skin
 });
 
+export const removeAllSkins = () => ({
+    type: "REMOVE_ALL_SKINS",
+});

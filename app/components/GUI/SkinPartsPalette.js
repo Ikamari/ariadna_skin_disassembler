@@ -8,10 +8,10 @@ import ImagePalette from "./ImagePalette"
 
 class SkinPartsPalette extends Component {
     render() {
-        const { parts, updateSkinParts } = this.props;
+        const { parts, removeSkinPart } = this.props;
         console.log("From storage skinParts - SkinPartsCarousel:", this.props);
         return(
-            <ImagePalette images={parts} removeImage={updateSkinParts.updateSkinParts} uniqueKey="part"/>
+            <ImagePalette images={parts} removeImage={(part) => removeSkinPart(part)} uniqueKey="part"/>
         )
     }
 }
@@ -24,7 +24,7 @@ const mapStateToProps = state => ({
 import * as skinPartsActions from '../../actions/skinParts';
 
 const mapDispatchToProps = dispatch => ({
-    updateSkinParts: bindActionCreators(skinPartsActions, dispatch)
+    removeSkinPart: bindActionCreators(skinPartsActions.removeSkinPart, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SkinPartsPalette)

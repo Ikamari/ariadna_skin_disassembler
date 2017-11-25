@@ -1955,10 +1955,16 @@ var uploadSkins = exports.uploadSkins = function uploadSkins(skins, sizes) {
     };
 };
 
-var updateSkins = exports.updateSkins = function updateSkins(skin) {
+var removeSkin = exports.removeSkin = function removeSkin(skin) {
     return {
-        type: "UPDATE_SKINS",
+        type: "REMOVE_SKIN",
         payload: skin
+    };
+};
+
+var removeAllSkins = exports.removeAllSkins = function removeAllSkins() {
+    return {
+        type: "REMOVE_ALL_SKINS"
     };
 };
 
@@ -21276,12 +21282,17 @@ var skins = function skins() {
     switch (action.type) {
         case "UPLOAD_SKINS":
             return { skins: action.payload.skins, sizes: action.payload.sizes };
-        case "UPDATE_SKINS":
+        case "REMOVE_SKIN":
             {
                 var newState = {};
                 Object.assign(newState, state.skins);
                 delete newState[action.payload];
                 return _extends({}, state, { skins: newState });
+            }
+        case "REMOVE_ALL_SKINS":
+            {
+                var _newState = {};
+                return _extends({}, state, { skins: _newState });
             }
         default:
             return state;
@@ -21561,6 +21572,9 @@ var SkinLoader = function (_Component) {
         value: function checkSkinDimensions(height, width) {
             return (height === 64 || height === 32) && width === 64;
         }
+
+        //Will leave images(skins) that has height & width = 64*32 or 64*64
+
     }, {
         key: "cleanUpSkins",
         value: function cleanUpSkins(skins, amount) {
@@ -21594,7 +21608,9 @@ var SkinLoader = function (_Component) {
     }, {
         key: "saveSkins",
         value: function saveSkins(skins, sizes) {
-            var uploadSkins = this.props.skinsActions.uploadSkins;
+            var _props$skinsActions = this.props.skinsActions,
+                uploadSkins = _props$skinsActions.uploadSkins,
+                removeAllSkins = _props$skinsActions.removeAllSkins;
 
             console.log("Cleaned up skins - SkinLoader:", skins, sizes);
             uploadSkins(skins, sizes);
@@ -21843,7 +21859,7 @@ var SkinDisassemble = function (_Component) {
             var blank = this.refs.blank;
             var addSkinPart = this.props.SkinPartsActions.addSkinPart;
 
-            console.log(this.props);
+
             canvas.width = coordinates[2] - coordinates[0];
             canvas.height = coordinates[3] - coordinates[1];
             blank.width = canvas.width;
@@ -21854,13 +21870,12 @@ var SkinDisassemble = function (_Component) {
             var image = new Image();
             image.onload = function () {
                 context.drawImage(image, coordinates[0], coordinates[1], context.canvas.width, context.canvas.height, 0, 0, context.canvas.width, context.canvas.height);
-                setTimeout(function () {
-                    //Write rendered part to state and tell, that new part can be rendered
-                    _this2.inProgress = false;
-                    if (canvas.toDataURL() !== blank.toDataURL()) {
-                        addSkinPart(canvas.toDataURL("image/png"), [index + "-" + key]);
-                    }
-                }, 5);
+                //Write rendered part to state and tell, that new part can be rendered
+                _this2.inProgress = false;
+                //Checks is current part is blank
+                if (canvas.toDataURL() !== blank.toDataURL()) {
+                    addSkinPart(canvas.toDataURL("image/png"), [index + "-" + key]);
+                }
             };
             image.src = skin;
         }
@@ -21869,6 +21884,7 @@ var SkinDisassemble = function (_Component) {
         value: function renderQueue(skin, coordinates, index, key) {
             var _this3 = this;
 
+            //Wait n ms before try to render new part again
             setTimeout(function () {
                 if (!_this3.inProgress) {
                     _this3.inProgress = true;
@@ -21876,7 +21892,7 @@ var SkinDisassemble = function (_Component) {
                 } else {
                     _this3.renderQueue(skin, coordinates, index, key);
                 }
-            }, 30);
+            }, 5);
         }
     }, {
         key: "getSkinParts",
@@ -21902,7 +21918,6 @@ var SkinDisassemble = function (_Component) {
                 skins = _props$skins.skins,
                 sizes = _props$skins.sizes;
             var removeAllSkinParts = this.props.SkinPartsActions.removeAllSkinParts;
-            //Clear old parts
 
             removeAllSkinParts();
             //Give to function every skin and it's dimensions (height & width)
@@ -22043,16 +22058,10 @@ var ImagePalette = function (_Component) {
                 _react2.default.createElement("img", { src: image })
             );
         }
-
-        //ref={`${uniqueKey}-${index}`}
-
     }, {
         key: "removeImage",
         value: function removeImage(index) {
             var removeImage = this.props.removeImage;
-            // let { images } = this.props;
-            // delete images[index];
-            // removeImage(images);
 
             removeImage(index);
         }
@@ -22136,11 +22145,11 @@ var SkinPalette = function (_Component) {
         value: function render() {
             var _props = this.props,
                 skins = _props.skins,
-                updateSkins = _props.updateSkins;
+                removeSkin = _props.removeSkin;
 
             console.log("From storage skins - SkinCarousel:", this.props);
-            return _react2.default.createElement(_ImagePalette2.default, { images: skins, removeImage: function removeImage(skins) {
-                    return updateSkins.updateSkins(skins);
+            return _react2.default.createElement(_ImagePalette2.default, { images: skins, removeImage: function removeImage(skin) {
+                    return removeSkin(skin);
                 }, uniqueKey: "skin" });
         }
     }]);
@@ -22159,7 +22168,7 @@ var mapStateToProps = function mapStateToProps(state) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     return {
-        updateSkins: (0, _redux.bindActionCreators)(skinActions, dispatch)
+        removeSkin: (0, _redux.bindActionCreators)(skinActions.removeSkin, dispatch)
     };
 };
 
@@ -22223,10 +22232,12 @@ var SkinPartsPalette = function (_Component) {
         value: function render() {
             var _props = this.props,
                 parts = _props.parts,
-                updateSkinParts = _props.updateSkinParts;
+                removeSkinPart = _props.removeSkinPart;
 
             console.log("From storage skinParts - SkinPartsCarousel:", this.props);
-            return _react2.default.createElement(_ImagePalette2.default, { images: parts, removeImage: updateSkinParts.updateSkinParts, uniqueKey: "part" });
+            return _react2.default.createElement(_ImagePalette2.default, { images: parts, removeImage: function removeImage(part) {
+                    return removeSkinPart(part);
+                }, uniqueKey: "part" });
         }
     }]);
 
@@ -22244,7 +22255,7 @@ var mapStateToProps = function mapStateToProps(state) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     return {
-        updateSkinParts: (0, _redux.bindActionCreators)(skinPartsActions, dispatch)
+        removeSkinPart: (0, _redux.bindActionCreators)(skinPartsActions.removeSkinPart, dispatch)
     };
 };
 

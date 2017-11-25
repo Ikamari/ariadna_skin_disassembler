@@ -11,6 +11,7 @@ class SkinLoader extends Component {
         return (height === 64 || height === 32) && width === 64
     }
 
+    //Will leave images(skins) that has height & width = 64*32 or 64*64
     cleanUpSkins(skins, amount) {
         let fileNum = 0, validSkins = {}, skinSizes = {};
 
@@ -32,7 +33,7 @@ class SkinLoader extends Component {
     }
 
     saveSkins(skins, sizes){
-        const { uploadSkins } = this.props.skinsActions;
+        const { uploadSkins, removeAllSkins } = this.props.skinsActions;
         console.log("Cleaned up skins - SkinLoader:", skins, sizes);
         uploadSkins(skins, sizes)
     }
