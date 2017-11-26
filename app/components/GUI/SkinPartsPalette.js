@@ -9,14 +9,19 @@ import ImagePalette from "./ImagePalette"
 class SkinPartsPalette extends Component {
     render() {
         const { parts, removeSkinPart } = this.props;
-        console.log("From storage skinParts - SkinPartsCarousel:", this.props);
+        const { partsAreLoading } = this.props.processStatus;
+
         return(
-            <ImagePalette images={parts} removeImage={(part) => removeSkinPart(part)} uniqueKey="part"/>
+            <div className="image-palette-wrapper">
+                <div className={"image-palette-loading" + ((partsAreLoading) ? " active" : "")}>Loading...</div>
+                <ImagePalette images={parts} removeImage={(part) => removeSkinPart(part)} uniqueKey="part"/>
+            </div>
         )
     }
 }
 
 const mapStateToProps = state => ({
+    processStatus: state.processStatus,
     parts: state.skinParts.parts
 });
 

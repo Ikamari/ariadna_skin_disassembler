@@ -1,11 +1,14 @@
 .image-carousel {
     display: block;
+    position: relative;
     height: 200px;
     width: 826px;
     margin-left: auto;
     margin-right: auto;
     overflow-y: scroll;
     border: 1px solid rebeccapurple;
+    background: white;
+    z-index: 1;
 }
 
 .image-carousel::-webkit-scrollbar-track {
@@ -123,4 +126,39 @@
     image-rendering: pixelated;
     image-rendering: optimize-contrast;
     -ms-interpolation-mode: nearest-neighbor;
+}
+
+.image-palette-wrapper {
+    position: relative;
+    height: 200px;
+    width: 826px;
+    margin: 0 auto;
+}
+
+.image-palette-loading {
+    position: absolute;
+    width: inherit;
+    margin: 1px;
+    background: rgba(102, 51, 153, 0.5);
+    text-align: center;
+    line-height: 200px;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    font-size: 42px;
+    color: white;
+    z-index: 0;
+    opacity: 0;
+    transition-duration: 0.3s;
+}
+
+.image-palette-loading.active {
+    opacity: 1;
+    z-index: 1000;
+}
+
+.file-upload-button.unactive {
+    opacity: 0.5;
+}
+
+.button.unactive {
+    opacity: 0.5;
 }

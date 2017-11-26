@@ -1,8 +1,10 @@
 // React
 import React, { Component } from "react";
 import PropTypes from "prop-types"
+// Redux
+import { connect } from "react-redux";
 
-export default class FileLoader extends Component {
+class FileLoader extends Component {
     getImagesFromInput (inputData) {
         const { returnPath, extension } = this.props;
         let imageFiles = {}, images = {}, fileNum = 0;
@@ -37,9 +39,13 @@ export default class FileLoader extends Component {
     }
 
     render() {
+        const { skinsAreLoading, partsAreLoading } = this.props.processStatus;
         return (
             <div>
-                <label className="file-upload-button" htmlFor="file-upload">Загрузить</label>
+                <label
+                    className={"file-upload-button" + ((skinsAreLoading || partsAreLoading) ? " unactive" : "")}
+                    htmlFor={(skinsAreLoading || partsAreLoading) ? "" : "file-upload"}
+                >Загрузить</label>
                 <input id="file-upload" name="images" onChange={(event) => {
                     event.preventDefault();
                     console.log("Loaded files:", event.target.files);
@@ -50,6 +56,10 @@ export default class FileLoader extends Component {
     }
 }
 
+const mapStateToProps = state => ({
+    processStatus: state.processStatus,
+});
+
 FileLoader.propTypes = {
     extension: PropTypes.string,
     returnPath: PropTypes.func.isRequired
@@ -58,3 +68,5 @@ FileLoader.propTypes = {
 FileLoader.defaultProps = {
     extension: null,
 };
+
+export default connect(mapStateToProps)(FileLoader)

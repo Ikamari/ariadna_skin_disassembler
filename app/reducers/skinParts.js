@@ -1,24 +1,35 @@
 const initialState = {
-    parts: {}
+    parts: {},
+    partData: {}
 };
 
 const skinParts = (state = initialState, action) => {
     switch(action.type) {
         case "ADD_PART": {
-            let newState = {};
-            Object.assign(newState, state.parts);
-            newState[action.payload.key] = action.payload.part;
-            return {parts: newState};
+            let partsNewState = {}, partDataNewState = {};
+
+            Object.assign(partsNewState, state.parts);
+            Object.assign(partDataNewState, state.partData);
+
+            partsNewState[action.payload.key] = action.payload.part;
+            partDataNewState[action.payload.key] = action.payload.bodyPart;
+
+            return {parts: partsNewState, partData: partDataNewState};
         }
         case "REMOVE_PART": {
-            let newState = {};
-            Object.assign(newState, state.parts);
-            delete newState[action.payload];
-            return {parts: newState};
+            let partsNewState = {}, partDataNewState = {};
+
+            Object.assign(partsNewState, state.parts);
+            Object.assign(partDataNewState, state.partData);
+
+            delete partsNewState[action.payload];
+            delete partDataNewState[action.payload];
+
+            return {parts: partsNewState, partData: partDataNewState};
         }
         case "REMOVE_ALL_PARTS": {
             let newState = {};
-            return {parts: newState};
+            return {parts: newState, partData: newState};
         }
         default:
             return state

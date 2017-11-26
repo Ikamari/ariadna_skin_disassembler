@@ -13,6 +13,8 @@ class SkinLoader extends Component {
 
     //Will leave images(skins) that has height & width = 64*32 or 64*64
     cleanUpSkins(skins, amount) {
+        const { changeSkinLoadingStatus } = this.props;
+        changeSkinLoadingStatus();
         let fileNum = 0, validSkins = {}, skinSizes = {};
 
         for(let i = 0; i < amount; i++) {
@@ -33,9 +35,13 @@ class SkinLoader extends Component {
     }
 
     saveSkins(skins, sizes){
+        const { changeSkinLoadingStatus } = this.props;
         const { uploadSkins, removeAllSkins } = this.props.skinsActions;
-        console.log("Cleaned up skins - SkinLoader:", skins, sizes);
-        uploadSkins(skins, sizes)
+
+        console.log("Cleaned up skins:", skins, sizes);
+
+        uploadSkins(skins, sizes);
+        changeSkinLoadingStatus();
     }
 
     render() {
@@ -50,7 +56,7 @@ import * as processStatusActions from '../../actions/processStatus';
 import * as skinsActions from '../../actions/skins';
 
 const mapDispatchToProps = dispatch => ({
-    changeSkinLoadingStatus: bindActionCreators(processStatusActions, dispatch),
+    changeSkinLoadingStatus: bindActionCreators(processStatusActions.changeSkinLoadingStatus, dispatch),
     skinsActions: bindActionCreators(skinsActions, dispatch)
 });
 
