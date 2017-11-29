@@ -1,11 +1,12 @@
 //React
 import React, { Component } from 'react';
-import { connect } from "react-redux"
+import { connect } from "react-redux";
 //Components
-import SkinPalette from './components/GUI/SkinPalette'
-import SkinPartsPalette from './components/GUI/SkinPartsPalette'
-import SkinLoader from './components/SkinLoader/SkinLoader'
-import SkinDisassemble from './components/skin-disassemble/SkinDisassemble'
+import SkinPalette from './components/GUI/SkinPalette';
+import SkinPartsPalette from './components/GUI/SkinPartsPalette';
+import SkinLoader from './components/SkinLoader/SkinLoader';
+import SkinDisassemble from './components/skin-disassemble/SkinDisassemble';
+import PartExport from './components/PartExport';
 
 export default class App extends Component {
     render() {
@@ -15,6 +16,7 @@ export default class App extends Component {
                 <SkinPalette/>
                 <SkinDisassemble/>
                 <SkinPartsPalette/>
+                <PartExport/>
             </div>
         )
     }

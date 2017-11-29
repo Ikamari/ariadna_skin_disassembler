@@ -12,7 +12,7 @@ const skinParts = (state = initialState, action) => {
             Object.assign(partDataNewState, state.partData);
 
             partsNewState[action.payload.key] = action.payload.part;
-            partDataNewState[action.payload.key] = action.payload.bodyPart;
+            partDataNewState[action.payload.key] = { bodyPart: action.payload.bodyPart, isArmor: action.payload.isArmor };
 
             return {parts: partsNewState, partData: partDataNewState};
         }

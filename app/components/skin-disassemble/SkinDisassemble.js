@@ -68,7 +68,16 @@ class SkinDisassemble extends Component {
             this.queueLenght--;
             //Checks is current part is blank
             if(canvas.toDataURL() !== blank.toDataURL()) {
-                addSkinPart(canvas.toDataURL("image/png"), this.createHash(canvas.toDataURL("image/png")), key);
+                let isArmor = key.includes("-armor");
+                let bodyPart = key.includes("left-") ?
+                    key.slice(5) : key.includes("right-") ?
+                        key.slice(6) : key;
+                addSkinPart(
+                    canvas.toDataURL("image/png"),
+                    this.createHash(canvas.toDataURL("image/png")),
+                    isArmor ? bodyPart.slice(0, -6) : bodyPart,
+                    isArmor
+                );
             }
         };
         image.src = skin;

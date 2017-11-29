@@ -1,9 +1,10 @@
-export const addSkinPart = (part, key, partData) => ({
+export const addSkinPart = (part, key, bodyPart, isArmor) => ({
     type: "ADD_PART",
     payload: {
         part: part,
         key: key,
-        partData: partData
+        bodyPart: bodyPart,
+        isArmor: isArmor
     }
 });
 
