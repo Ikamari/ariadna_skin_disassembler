@@ -67,11 +67,6 @@ class PartExport extends Component {
                     className={"button" + ((skinsAreLoading || partsAreLoading || exporting) ? " unactive" : "")}
                 >Экспортировать части</button>
                 <a ref="link"/>
-                <form encType="multipart/form-data" action="part-import.php" method="POST">
-                    <input type="hidden" name="MAX_FILE_SIZE" value="1024000" />
-                    Отправить этот файл: <input name="userfile" type="file" />
-                    <input type="submit" value="Send File" />
-                </form>
             </div>
         )
     }

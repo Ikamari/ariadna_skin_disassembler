@@ -30781,15 +30781,7 @@ var PartExport = function (_Component) {
                     },
                     "\u042D\u043A\u0441\u043F\u043E\u0440\u0442\u0438\u0440\u043E\u0432\u0430\u0442\u044C \u0447\u0430\u0441\u0442\u0438"
                 ),
-                _react2.default.createElement("a", { ref: "link" }),
-                _react2.default.createElement(
-                    "form",
-                    { encType: "multipart/form-data", action: "part-import.php", method: "POST" },
-                    _react2.default.createElement("input", { type: "hidden", name: "MAX_FILE_SIZE", value: "1024000" }),
-                    "\u041E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u044C \u044D\u0442\u043E\u0442 \u0444\u0430\u0439\u043B: ",
-                    _react2.default.createElement("input", { name: "userfile", type: "file" }),
-                    _react2.default.createElement("input", { type: "submit", value: "Send File" })
-                )
+                _react2.default.createElement("a", { ref: "link" })
             );
         }
     }]);
