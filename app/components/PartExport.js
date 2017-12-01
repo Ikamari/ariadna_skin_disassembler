@@ -5,6 +5,8 @@ import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 // JSZip
 import JSZip from "jszip";
+//Axios
+import axios from 'axios';
 
 class PartExport extends Component {
     createSubFolders(armor, main) {
@@ -39,11 +41,19 @@ class PartExport extends Component {
 
     exportZip(zip) {
         let link = this.refs.link;
-        zip.generateAsync({type:"blob"})
+        zip.generateAsync({type:"base64"})
             .then(function(content) {
-                link.href = window.URL.createObjectURL(content);
-                link.download = "parts.zip";
-                link.click();
+                axios.post("part-import.php", {
+                        zip: content
+                    })
+                    .then((response) => {
+                        console.log("Successfully loaded parts to server");
+                        console.log(response.data);
+                    })
+                    .catch((error) => {
+                        console.log("Can't load parts to server");
+                        console.log(error);
+                    })
             });
     }
 
@@ -57,6 +67,11 @@ class PartExport extends Component {
                     className={"button" + ((skinsAreLoading || partsAreLoading || exporting) ? " unactive" : "")}
                 >Экспортировать части</button>
                 <a ref="link"/>
+                <form encType="multipart/form-data" action="part-import.php" method="POST">
+                    <input type="hidden" name="MAX_FILE_SIZE" value="1024000" />
+                    Отправить этот файл: <input name="userfile" type="file" />
+                    <input type="submit" value="Send File" />
+                </form>
             </div>
         )
     }

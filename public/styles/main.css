@@ -93,7 +93,7 @@
     transition-duration: 0.4s;
 }
 
-.button {
+.app .button {
     display: block;
     height: 30px;
     width: 250px;
@@ -109,7 +109,7 @@
     transition-duration: 0.4s;
 }
 
-.button:hover {
+.app .button:hover {
     background-color: mediumpurple;
 }
 
@@ -159,6 +159,6 @@
     opacity: 0.5;
 }
 
-.button.unactive {
+.app .button.unactive {
     opacity: 0.5;
 }
