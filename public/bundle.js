@@ -29825,7 +29825,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var initialState = {
-    isDev: true
+    isDev: false
 };
 
 var other = function other() {
@@ -30774,11 +30774,11 @@ var PartExport = function (_Component) {
     }, {
         key: "exportZip",
         value: function exportZip(zip) {
-            var isDev = this.props.isDev;
+            var isDev = this.props.isDev.isDev;
 
             var statusBlock = this.refs.statusBlock;
             var link = this.refs.link;
-
+            console.log(isDev);
             zip.generateAsync({ type: "base64" }).then(function (content) {
                 _axios2.default.post(isDev ? "./part-import.php" : "http://ariadna-rp.ru/skin-disassembler/part-import.php", {
                     zip: content

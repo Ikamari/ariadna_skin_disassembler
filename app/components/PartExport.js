@@ -45,13 +45,13 @@ class PartExport extends Component {
     }
 
     exportZip(zip) {
-        const { isDev } = this.props;
+        const { isDev } = this.props.isDev;
         const statusBlock = this.refs.statusBlock;
         let link = this.refs.link;
-
+        console.log(isDev);
         zip.generateAsync({type:"base64"})
             .then(function(content) {
-                axios.post( isDev ? "./part-import.php" : "http://ariadna-rp.ru/skin-disassembler/part-import.php", {
+                axios.post((isDev ? "./part-import.php" : "http://ariadna-rp.ru/skin-disassembler/part-import.php"), {
                         zip: content
                     })
                     .then((response) => {
