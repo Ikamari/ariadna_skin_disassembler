@@ -31,6 +31,7 @@ class PartExport extends Component {
 
     createZip() {
         const {changeExportStatus} = this.props;
+        this.refs.statusBlock.innerHTML = " ";
         changeExportStatus();
 
         let zip = new JSZip(),
@@ -45,6 +46,7 @@ class PartExport extends Component {
 
     exportZip(zip) {
         const { isDev } = this.props;
+        const statusBlock = this.refs.statusBlock;
         let link = this.refs.link;
 
         zip.generateAsync({type:"base64"})
@@ -54,12 +56,12 @@ class PartExport extends Component {
                     })
                     .then((response) => {
                         console.log("Successfully loaded parts to server");
-                        console.log(response.data);
-
+                        statusBlock.innerHTML = response.data;
                     })
                     .catch((error) => {
                         console.log("Can't load parts to server");
                         console.log(error);
+                        statusBlock.innerHTML = "Что-то пошло не так";
                     })
             });
     }
@@ -74,7 +76,7 @@ class PartExport extends Component {
                     className={"button" + ((skinsAreLoading || partsAreLoading || exporting) ? " unactive" : "")}
                 >Экспортировать части</button>
                 <a ref="link"/>
-                <div className="exportStatusBlock" ref="statusBlock"/>
+                <div className="exportStatusBlock" ref="statusBlock"> </div>
             </div>
         )
     }

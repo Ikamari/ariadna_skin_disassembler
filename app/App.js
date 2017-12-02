@@ -12,11 +12,6 @@ export default class App extends Component {
     render() {
         return(
             <div className="app">
-                <SkinLoader/>
-                <SkinPalette/>
-                <SkinDisassemble/>
-                <SkinPartsPalette/>
-                <PartExport/>
                 <div className="restriction">
                     <span>Caution:</span> Данное приложение спокойно разбирает скины 64*32 и 64*64,<br/>
                     однако не стоит заливать скины для модельки Алекс (Модель с более тонкими<br/>
@@ -24,6 +19,11 @@ export default class App extends Component {
                     собрать скин, но игра не будет их правильно рендерить, ибо на текущей версии<br/>
                     нет поддержки урезанных текстур рук, да и такой модельки тоже.
                 </div>
+                <SkinLoader/>
+                <SkinPalette/>
+                <SkinDisassemble/>
+                <SkinPartsPalette/>
+                <PartExport/>
             </div>
         )
     }

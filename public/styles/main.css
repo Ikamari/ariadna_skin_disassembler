@@ -174,3 +174,14 @@
     font-weight: bold;
     text-transform: uppercase;
 }
+
+.exportStatusBlock {
+    font-family: cursive;
+    font-weight: bold;
+    text-align: center;
+    margin: 20px;
+}
+
+.exportStatusBlock .error {
+    color: red;
+}
