@@ -162,3 +162,15 @@
 .app .button.unactive {
     opacity: 0.5;
 }
+
+.restriction {
+    font-family: cursive;
+    text-align: center;
+}
+
+.restriction span {
+    color: red;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+}

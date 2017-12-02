@@ -9,11 +9,11 @@ import ImagePalette from "./ImagePalette"
 class SkinPartsPalette extends Component {
     render() {
         const { parts, removeSkinPart } = this.props;
-        const { partsAreLoading } = this.props.processStatus;
+        const { partsAreLoading, exporting } = this.props.processStatus;
 
         return(
             <div className="image-palette-wrapper">
-                <div className={"image-palette-loading" + ((partsAreLoading) ? " active" : "")}>Loading...</div>
+                <div className={"image-palette-loading" + ((partsAreLoading || exporting) ? " active" : "")}>Loading...</div>
                 <ImagePalette images={parts} removeImage={(part) => removeSkinPart(part)} uniqueKey="part"/>
             </div>
         )

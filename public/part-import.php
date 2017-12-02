@@ -7,7 +7,7 @@
 
     //Check if everything OK with POST data
     if(!$zipData) {
-        echo "Can't decode data";
+        echo "Не удалось успешно загрузить данные :(";
         return;
     }
 
@@ -19,7 +19,7 @@
     //Open zip
     $zip = new ZipArchive();
     if ($zip->open("parts.zip", ZipArchive::CREATE)!==TRUE) {
-        echo "Something went wrong with archive";
+        echo "С данными произошло что-то нехорошее";
         return;
     }
     //Check files in zip
@@ -27,12 +27,13 @@
         $stat = $zip->statIndex( $i );
         $filename = ( basename( $stat['name'] ) . PHP_EOL );
         if(substr(trim($filename), -4) != ".png") {
-            echo "I see that you trying to export something bad :^)";
+            echo "Видать у тебя в архиве что-то лишнее в данных :^)";
             return;
         }
     }
     //Extract files if everything is ok
-    $zip->extractTo("./parts/");
+    $zip->extractTo("../skin-creator/img/");
+    echo "Части успешно загружены";
 
     //Clear zip
     file_put_contents("parts.zip", "");

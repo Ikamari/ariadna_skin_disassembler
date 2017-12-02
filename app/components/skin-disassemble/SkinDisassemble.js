@@ -123,16 +123,16 @@ class SkinDisassemble extends Component {
     }
 
     render() {
-        const { skinsAreLoading, partsAreLoading } = this.props.processStatus;
+        const { skinsAreLoading, partsAreLoading, exporting } = this.props.processStatus;
         return(
             <div className="disassembler">
                 <button
                     onClick={() => {
-                        if(!(skinsAreLoading || partsAreLoading)){
+                        if(!(skinsAreLoading || partsAreLoading || exporting)){
                             this.disassembleSkins();
                         }
                     }}
-                    className={"button" + ((skinsAreLoading || partsAreLoading) ? " unactive" : "")}
+                    className={"button" + ((skinsAreLoading || partsAreLoading || exporting) ? " unactive" : "")}
                 >Разобрать скины</button>
                 <canvas className="hidden-render" ref="offscreenCanvas"/>
                 <canvas className="hidden-render" ref="blank"/>

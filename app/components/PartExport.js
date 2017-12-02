@@ -30,6 +30,9 @@ class PartExport extends Component {
     }
 
     createZip() {
+        const {changeExportStatus} = this.props;
+        changeExportStatus();
+
         let zip = new JSZip(),
             armor = zip.folder("armor"),
             main = zip.folder("main"),
@@ -37,18 +40,22 @@ class PartExport extends Component {
 
         this.fillZip(folders);
         this.exportZip(zip);
+        changeExportStatus();
     }
 
     exportZip(zip) {
+        const { isDev } = this.props;
         let link = this.refs.link;
+
         zip.generateAsync({type:"base64"})
             .then(function(content) {
-                axios.post("part-import.php", {
+                axios.post( isDev ? "./part-import.php" : "http://ariadna-rp.ru/skin-disassembler/part-import.php", {
                         zip: content
                     })
                     .then((response) => {
                         console.log("Successfully loaded parts to server");
                         console.log(response.data);
+
                     })
                     .catch((error) => {
                         console.log("Can't load parts to server");
@@ -67,6 +74,7 @@ class PartExport extends Component {
                     className={"button" + ((skinsAreLoading || partsAreLoading || exporting) ? " unactive" : "")}
                 >Экспортировать части</button>
                 <a ref="link"/>
+                <div className="exportStatusBlock" ref="statusBlock"/>
             </div>
         )
     }
@@ -80,6 +88,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = state => ({
+    isDev: state.other,
     processStatus: state.processStatus,
     skinParts: state.skinParts
 });

@@ -14,6 +14,7 @@ const processStatus = (state = initialState, action) => {
             return {...state, partsAreLoading: !state.partsAreLoading};
         }
         case "CHANGE_EXPORT_STATUS":
+            console.log("Changed export status");
             return {...state, exporting: !state.exporting};
         default:
             return state

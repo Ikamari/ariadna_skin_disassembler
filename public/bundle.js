@@ -29806,6 +29806,7 @@ var processStatus = function processStatus() {
                 return _extends({}, state, { partsAreLoading: !state.partsAreLoading });
             }
         case "CHANGE_EXPORT_STATUS":
+            console.log("Changed export status");
             return _extends({}, state, { exporting: !state.exporting });
         default:
             return state;
@@ -29903,7 +29904,25 @@ var App = function (_Component) {
                 _react2.default.createElement(_SkinPalette2.default, null),
                 _react2.default.createElement(_SkinDisassemble2.default, null),
                 _react2.default.createElement(_SkinPartsPalette2.default, null),
-                _react2.default.createElement(_PartExport2.default, null)
+                _react2.default.createElement(_PartExport2.default, null),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'restriction' },
+                    _react2.default.createElement(
+                        'span',
+                        null,
+                        'Caution:'
+                    ),
+                    ' \u0414\u0430\u043D\u043D\u043E\u0435 \u043F\u0440\u0438\u043B\u043E\u0436\u0435\u043D\u0438\u0435 \u0441\u043F\u043E\u043A\u043E\u0439\u043D\u043E \u0440\u0430\u0437\u0431\u0438\u0440\u0430\u0435\u0442 \u0441\u043A\u0438\u043D\u044B 64*32 \u0438 64*64,',
+                    _react2.default.createElement('br', null),
+                    '\u043E\u0434\u043D\u0430\u043A\u043E \u043D\u0435 \u0441\u0442\u043E\u0438\u0442 \u0437\u0430\u043B\u0438\u0432\u0430\u0442\u044C \u0441\u043A\u0438\u043D\u044B \u0434\u043B\u044F \u043C\u043E\u0434\u0435\u043B\u044C\u043A\u0438 \u0410\u043B\u0435\u043A\u0441 (\u041C\u043E\u0434\u0435\u043B\u044C \u0441 \u0431\u043E\u043B\u0435\u0435 \u0442\u043E\u043D\u043A\u0438\u043C\u0438',
+                    _react2.default.createElement('br', null),
+                    '\u0440\u0443\u043A\u0430\u043C\u0438 \u0438 \u0434\u0440\u0443\u0433\u0438\u043C \u0440\u0430\u0437\u043C\u0435\u0440\u043E\u043C \u0442\u0435\u043A\u0441\u0442\u0443\u0440 \u0434\u043B\u044F \u043D\u0438\u0445). \u0421\u0431\u043E\u0440\u0449\u0438\u043A-\u0442\u043E \u0441\u043C\u043E\u0436\u0435\u0442 \u0438\u0437 \u044D\u0442\u0438\u0445 \u0447\u0430\u0441\u0442\u0435\u0439',
+                    _react2.default.createElement('br', null),
+                    '\u0441\u043E\u0431\u0440\u0430\u0442\u044C \u0441\u043A\u0438\u043D, \u043D\u043E \u0438\u0433\u0440\u0430 \u043D\u0435 \u0431\u0443\u0434\u0435\u0442 \u0438\u0445 \u043F\u0440\u0430\u0432\u0438\u043B\u044C\u043D\u043E \u0440\u0435\u043D\u0434\u0435\u0440\u0438\u0442\u044C, \u0438\u0431\u043E \u043D\u0430 \u0442\u0435\u043A\u0443\u0449\u0435\u0439 \u0432\u0435\u0440\u0441\u0438\u0438',
+                    _react2.default.createElement('br', null),
+                    '\u043D\u0435\u0442 \u043F\u043E\u0434\u0434\u0435\u0440\u0436\u043A\u0438 \u0443\u0440\u0435\u0437\u0430\u043D\u043D\u044B\u0445 \u0442\u0435\u043A\u0441\u0442\u0443\u0440 \u0440\u0443\u043A, \u0434\u0430 \u0438 \u0442\u0430\u043A\u043E\u0439 \u043C\u043E\u0434\u0435\u043B\u044C\u043A\u0438 \u0442\u043E\u0436\u0435.'
+                )
             );
         }
     }]);
@@ -29974,7 +29993,8 @@ var SkinPalette = function (_Component) {
                 removeSkin = _props.removeSkin;
             var _props$processStatus = this.props.processStatus,
                 skinsAreLoading = _props$processStatus.skinsAreLoading,
-                partsAreLoading = _props$processStatus.partsAreLoading;
+                partsAreLoading = _props$processStatus.partsAreLoading,
+                exporting = _props$processStatus.exporting;
 
 
             return _react2.default.createElement(
@@ -29982,7 +30002,7 @@ var SkinPalette = function (_Component) {
                 { className: "image-palette-wrapper" },
                 _react2.default.createElement(
                     "div",
-                    { className: "image-palette-loading" + (skinsAreLoading || partsAreLoading ? " active" : "") },
+                    { className: "image-palette-loading" + (skinsAreLoading || partsAreLoading || exporting ? " active" : "") },
                     "Loading..."
                 ),
                 _react2.default.createElement(_ImagePalette2.default, { images: skins, removeImage: function removeImage(skin) {
@@ -30072,7 +30092,9 @@ var SkinPartsPalette = function (_Component) {
             var _props = this.props,
                 parts = _props.parts,
                 removeSkinPart = _props.removeSkinPart;
-            var partsAreLoading = this.props.processStatus.partsAreLoading;
+            var _props$processStatus = this.props.processStatus,
+                partsAreLoading = _props$processStatus.partsAreLoading,
+                exporting = _props$processStatus.exporting;
 
 
             return _react2.default.createElement(
@@ -30080,7 +30102,7 @@ var SkinPartsPalette = function (_Component) {
                 { className: "image-palette-wrapper" },
                 _react2.default.createElement(
                     "div",
-                    { className: "image-palette-loading" + (partsAreLoading ? " active" : "") },
+                    { className: "image-palette-loading" + (partsAreLoading || exporting ? " active" : "") },
                     "Loading..."
                 ),
                 _react2.default.createElement(_ImagePalette2.default, { images: parts, removeImage: function removeImage(part) {
@@ -30344,7 +30366,8 @@ var FileLoader = function (_Component) {
 
             var _props$processStatus = this.props.processStatus,
                 skinsAreLoading = _props$processStatus.skinsAreLoading,
-                partsAreLoading = _props$processStatus.partsAreLoading;
+                partsAreLoading = _props$processStatus.partsAreLoading,
+                exporting = _props$processStatus.exporting;
 
             return _react2.default.createElement(
                 "div",
@@ -30352,7 +30375,7 @@ var FileLoader = function (_Component) {
                 _react2.default.createElement(
                     "label",
                     {
-                        className: "file-upload-button" + (skinsAreLoading || partsAreLoading ? " unactive" : ""),
+                        className: "file-upload-button" + (skinsAreLoading || partsAreLoading || exporting ? " unactive" : ""),
                         htmlFor: skinsAreLoading || partsAreLoading ? "" : "file-upload"
                     },
                     "\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044C"
@@ -30569,7 +30592,8 @@ var SkinDisassemble = function (_Component) {
 
             var _props$processStatus = this.props.processStatus,
                 skinsAreLoading = _props$processStatus.skinsAreLoading,
-                partsAreLoading = _props$processStatus.partsAreLoading;
+                partsAreLoading = _props$processStatus.partsAreLoading,
+                exporting = _props$processStatus.exporting;
 
             return _react2.default.createElement(
                 "div",
@@ -30578,11 +30602,11 @@ var SkinDisassemble = function (_Component) {
                     "button",
                     {
                         onClick: function onClick() {
-                            if (!(skinsAreLoading || partsAreLoading)) {
+                            if (!(skinsAreLoading || partsAreLoading || exporting)) {
                                 _this7.disassembleSkins();
                             }
                         },
-                        className: "button" + (skinsAreLoading || partsAreLoading ? " unactive" : "")
+                        className: "button" + (skinsAreLoading || partsAreLoading || exporting ? " unactive" : "")
                     },
                     "\u0420\u0430\u0437\u043E\u0431\u0440\u0430\u0442\u044C \u0441\u043A\u0438\u043D\u044B"
                 ),
@@ -30733,6 +30757,10 @@ var PartExport = function (_Component) {
     }, {
         key: "createZip",
         value: function createZip() {
+            var changeExportStatus = this.props.changeExportStatus;
+
+            changeExportStatus();
+
             var zip = new _jszip2.default(),
                 armor = zip.folder("armor"),
                 main = zip.folder("main"),
@@ -30740,13 +30768,17 @@ var PartExport = function (_Component) {
 
             this.fillZip(folders);
             this.exportZip(zip);
+            changeExportStatus();
         }
     }, {
         key: "exportZip",
         value: function exportZip(zip) {
+            var isDev = this.props.isDev;
+
             var link = this.refs.link;
+
             zip.generateAsync({ type: "base64" }).then(function (content) {
-                _axios2.default.post("part-import.php", {
+                _axios2.default.post(isDev ? "./part-import.php" : "http://ariadna-rp.ru/skin-disassembler/part-import.php", {
                     zip: content
                 }).then(function (response) {
                     console.log("Successfully loaded parts to server");
@@ -30781,7 +30813,8 @@ var PartExport = function (_Component) {
                     },
                     "\u042D\u043A\u0441\u043F\u043E\u0440\u0442\u0438\u0440\u043E\u0432\u0430\u0442\u044C \u0447\u0430\u0441\u0442\u0438"
                 ),
-                _react2.default.createElement("a", { ref: "link" })
+                _react2.default.createElement("a", { ref: "link" }),
+                _react2.default.createElement("div", { className: "exportStatusBlock", ref: "statusBlock" })
             );
         }
     }]);
@@ -30800,6 +30833,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 
 var mapStateToProps = function mapStateToProps(state) {
     return {
+        isDev: state.other,
         processStatus: state.processStatus,
         skinParts: state.skinParts
     };

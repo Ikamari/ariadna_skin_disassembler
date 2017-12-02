@@ -39,11 +39,11 @@ class FileLoader extends Component {
     }
 
     render() {
-        const { skinsAreLoading, partsAreLoading } = this.props.processStatus;
+        const { skinsAreLoading, partsAreLoading, exporting } = this.props.processStatus;
         return (
             <div>
                 <label
-                    className={"file-upload-button" + ((skinsAreLoading || partsAreLoading) ? " unactive" : "")}
+                    className={"file-upload-button" + ((skinsAreLoading || partsAreLoading || exporting) ? " unactive" : "")}
                     htmlFor={(skinsAreLoading || partsAreLoading) ? "" : "file-upload"}
                 >Загрузить</label>
                 <input id="file-upload" name="images" onChange={(event) => {
