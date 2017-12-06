@@ -1,8 +1,9 @@
-export const uploadSkins = (skins, sizes) => ({
+export const uploadSkins = (skins, sizes, scales) => ({
     type: "UPLOAD_SKINS",
     payload: {
         skins: skins,
-        sizes: sizes
+        sizes: sizes,
+        scales: scales
     }
 });
 

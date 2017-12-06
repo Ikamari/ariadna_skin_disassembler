@@ -17,32 +17,36 @@ class SkinLoader extends Component {
     cleanUpSkins(skins, amount) {
         const { changeSkinLoadingStatus } = this.props;
         changeSkinLoadingStatus();
-        let fileNum = 0, validSkins = {}, skinSizes = {};
+        let fileNum = 0, validSkins = {}, skinSizes = {}, skinScales = {};
 
         for(let i = 0; i < amount; i++) {
             let image = new Image();
             image.onload = (e) => {
                 let height = e.target.naturalHeight, width = e.target.naturalWidth;
-                if (this.checkSkinDimensions(height, width)) {
+                let scale = getScale(height, width);
+
+                if(scale !== false) {
                     validSkins[fileNum] = skins[i];
                     skinSizes[fileNum] = {height, width};
+                    skinScales[fileNum] = scale;
                     fileNum++;
                 }
+
                 if(i === amount - 1) {
-                    this.saveSkins(validSkins, skinSizes)
+                    this.saveSkins(validSkins, skinSizes, skinScales)
                 }
             };
             image.src = skins[i];
         }
     }
 
-    saveSkins(skins, sizes){
+    saveSkins(skins, sizes, scales){
         const { changeSkinLoadingStatus } = this.props;
-        const { uploadSkins, removeAllSkins } = this.props.skinsActions;
+        const { uploadSkins } = this.props.skinsActions;
 
-        console.log("Cleaned up skins:", skins, sizes);
+        console.log("Cleaned up skins:", skins, sizes, scales);
 
-        uploadSkins(skins, sizes);
+        uploadSkins(skins, sizes, scales);
         changeSkinLoadingStatus();
     }
 

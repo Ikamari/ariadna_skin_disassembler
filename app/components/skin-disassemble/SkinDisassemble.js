@@ -37,14 +37,15 @@ class SkinDisassemble extends Component {
         }, 100);
     }
 
-    drawPartTexture(skin, coordinates, index, key) {
+    drawPartTexture(skin, coordinates, index, key, scale) {
         //Get size of skin part to know which size must be canvas
         const canvas = this.refs.offscreenCanvas;
         const blank = this.refs.blank;
         const { addSkinPart } = this.props.SkinPartsActions;
 
-        canvas.width = coordinates[2] - coordinates[0];
-        canvas.height = coordinates[3] - coordinates[1];
+        canvas.width = (coordinates[2] - coordinates[0]) * Math.pow(2, scale);
+        canvas.height = (coordinates[3] - coordinates[1]) * Math.pow(2, scale);
+        console.log(canvas.width, canvas.height, scale, Math.pow(2, scale));
         blank.width = canvas.width;
         blank.height = canvas.height;
         let context = canvas.getContext('2d');
@@ -54,8 +55,8 @@ class SkinDisassemble extends Component {
         image.onload = () => {
             context.drawImage(
                 image,
-                coordinates[0],
-                coordinates[1],
+                coordinates[0] * Math.pow(2, scale),
+                coordinates[1] * Math.pow(2, scale),
                 context.canvas.width,
                 context.canvas.height,
                 0,
@@ -83,34 +84,34 @@ class SkinDisassemble extends Component {
         image.src = skin;
     }
 
-    renderOneFromQueue(skin, coordinates, index, key) {
+    renderOneFromQueue(skin, coordinates, index, key, scale) {
         //Wait n ms before try to render new part again
         setTimeout(() => {
             if (!this.inProgress) {
                 this.inProgress = true;
-                this.drawPartTexture(skin, coordinates, index, key);
+                this.drawPartTexture(skin, coordinates, index, key, scale);
             } else {
-                this.renderOneFromQueue(skin, coordinates, index, key);
+                this.renderOneFromQueue(skin, coordinates, index, key, scale);
             }
         }, 5);
     }
 
-    getSkinParts(skin, index, size) {
+    getSkinParts(skin, index, size, scale) {
         //Get main parts of skin (Skin layout version is pre-1.8)
         Object.keys(coordinates).map((key) => {
             this.queueLenght++;
-            this.renderOneFromQueue(skin, coordinates[key], index, key);
+            this.renderOneFromQueue(skin, coordinates[key], index, key, scale);
         });
-        size.height === 64 ?
+        size.height === 64 * Math.pow(2, scale) ?
             //Get additional parts of skin (If skin layout version is +1.8)
             Object.keys(extendedCoordinates).map((key) => {
                 this.queueLenght++;
-                this.renderOneFromQueue(skin, extendedCoordinates[key], index, key);
+                this.renderOneFromQueue(skin, extendedCoordinates[key], index, key, scale);
             }) : undefined;
     }
 
     disassembleSkins() {
-        const {skins, sizes} = this.props.skins;
+        const {skins, sizes, scales} = this.props.skins;
         const {changePartLoadingStatus} = this.props;
         const { removeAllSkinParts } = this.props.SkinPartsActions;
 
@@ -118,7 +119,7 @@ class SkinDisassemble extends Component {
         changePartLoadingStatus();
 
         //Give to function every skin and it's dimensions (height & width)
-        Object.keys(skins).map((key) => this.getSkinParts(skins[key], key, sizes[key]));
+        Object.keys(skins).map((key) => this.getSkinParts(skins[key], key, sizes[key], scales[key]));
         this.queueChecker();
     }
 

@@ -7157,12 +7157,13 @@ exports.default = ImagePalette;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var uploadSkins = exports.uploadSkins = function uploadSkins(skins, sizes) {
+var uploadSkins = exports.uploadSkins = function uploadSkins(skins, sizes, scales) {
     return {
         type: "UPLOAD_SKINS",
         payload: {
             skins: skins,
-            sizes: sizes
+            sizes: sizes,
+            scales: scales
         }
     };
 };
@@ -29683,12 +29684,10 @@ exports.default = (0, _redux.combineReducers)({
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var initialState = {
     skins: [],
-    sizes: []
+    sizes: [],
+    scales: []
 };
 
 var skins = function skins() {
@@ -29697,18 +29696,30 @@ var skins = function skins() {
 
     switch (action.type) {
         case "UPLOAD_SKINS":
-            return { skins: action.payload.skins, sizes: action.payload.sizes };
+            return { skins: action.payload.skins, sizes: action.payload.sizes, scales: action.payload.scales };
         case "REMOVE_SKIN":
             {
-                var newState = {};
-                Object.assign(newState, state.skins);
-                delete newState[action.payload];
-                return _extends({}, state, { skins: newState });
+                var skinsNewState = {},
+                    sizesNewState = {},
+                    scalesNewState = {};
+
+                Object.assign(skinsNewState, state.skins);
+                Object.assign(sizesNewState, state.sizes);
+                Object.assign(scalesNewState, state.scales);
+
+                delete skinsNewState[action.payload];
+                delete sizesNewState[action.payload];
+                delete scalesNewState[action.payload];
+
+                return { skins: skinsNewState, sizes: sizesNewState, scales: scalesNewState };
             }
         case "REMOVE_ALL_SKINS":
             {
-                var _newState = {};
-                return _extends({}, state, { skins: _newState });
+                var _skinsNewState = {},
+                    _sizesNewState = {},
+                    _scalesNewState = {};
+
+                return { skins: _skinsNewState, sizes: _sizesNewState, scales: _scalesNewState };
             }
         default:
             return state;
@@ -30214,20 +30225,25 @@ var SkinLoader = function (_Component) {
             changeSkinLoadingStatus();
             var fileNum = 0,
                 validSkins = {},
-                skinSizes = {};
+                skinSizes = {},
+                skinScales = {};
 
             var _loop = function _loop(i) {
                 var image = new Image();
                 image.onload = function (e) {
                     var height = e.target.naturalHeight,
                         width = e.target.naturalWidth;
-                    if (_this2.checkSkinDimensions(height, width)) {
+                    var scale = (0, _getScale2.default)(height, width);
+
+                    if (scale !== false) {
                         validSkins[fileNum] = skins[i];
                         skinSizes[fileNum] = { height: height, width: width };
+                        skinScales[fileNum] = scale;
                         fileNum++;
                     }
+
                     if (i === amount - 1) {
-                        _this2.saveSkins(validSkins, skinSizes);
+                        _this2.saveSkins(validSkins, skinSizes, skinScales);
                     }
                 };
                 image.src = skins[i];
@@ -30239,16 +30255,14 @@ var SkinLoader = function (_Component) {
         }
     }, {
         key: "saveSkins",
-        value: function saveSkins(skins, sizes) {
+        value: function saveSkins(skins, sizes, scales) {
             var changeSkinLoadingStatus = this.props.changeSkinLoadingStatus;
-            var _props$skinsActions = this.props.skinsActions,
-                uploadSkins = _props$skinsActions.uploadSkins,
-                removeAllSkins = _props$skinsActions.removeAllSkins;
+            var uploadSkins = this.props.skinsActions.uploadSkins;
 
 
-            console.log("Cleaned up skins:", skins, sizes);
+            console.log("Cleaned up skins:", skins, sizes, scales);
 
-            uploadSkins(skins, sizes);
+            uploadSkins(skins, sizes, scales);
             changeSkinLoadingStatus();
         }
     }, {
@@ -30507,7 +30521,7 @@ var SkinDisassemble = function (_Component) {
         }
     }, {
         key: "drawPartTexture",
-        value: function drawPartTexture(skin, coordinates, index, key) {
+        value: function drawPartTexture(skin, coordinates, index, key, scale) {
             var _this3 = this;
 
             //Get size of skin part to know which size must be canvas
@@ -30516,8 +30530,9 @@ var SkinDisassemble = function (_Component) {
             var addSkinPart = this.props.SkinPartsActions.addSkinPart;
 
 
-            canvas.width = coordinates[2] - coordinates[0];
-            canvas.height = coordinates[3] - coordinates[1];
+            canvas.width = (coordinates[2] - coordinates[0]) * Math.pow(2, scale);
+            canvas.height = (coordinates[3] - coordinates[1]) * Math.pow(2, scale);
+            console.log(canvas.width, canvas.height, scale, Math.pow(2, scale));
             blank.width = canvas.width;
             blank.height = canvas.height;
             var context = canvas.getContext('2d');
@@ -30525,7 +30540,7 @@ var SkinDisassemble = function (_Component) {
             //Draw part of skin on canvas
             var image = new Image();
             image.onload = function () {
-                context.drawImage(image, coordinates[0], coordinates[1], context.canvas.width, context.canvas.height, 0, 0, context.canvas.width, context.canvas.height);
+                context.drawImage(image, coordinates[0] * Math.pow(2, scale), coordinates[1] * Math.pow(2, scale), context.canvas.width, context.canvas.height, 0, 0, context.canvas.width, context.canvas.height);
                 //Write rendered part to state and tell, that new part can be rendered
                 _this3.inProgress = false;
                 _this3.queueLenght--;
@@ -30540,34 +30555,34 @@ var SkinDisassemble = function (_Component) {
         }
     }, {
         key: "renderOneFromQueue",
-        value: function renderOneFromQueue(skin, coordinates, index, key) {
+        value: function renderOneFromQueue(skin, coordinates, index, key, scale) {
             var _this4 = this;
 
             //Wait n ms before try to render new part again
             setTimeout(function () {
                 if (!_this4.inProgress) {
                     _this4.inProgress = true;
-                    _this4.drawPartTexture(skin, coordinates, index, key);
+                    _this4.drawPartTexture(skin, coordinates, index, key, scale);
                 } else {
-                    _this4.renderOneFromQueue(skin, coordinates, index, key);
+                    _this4.renderOneFromQueue(skin, coordinates, index, key, scale);
                 }
             }, 5);
         }
     }, {
         key: "getSkinParts",
-        value: function getSkinParts(skin, index, size) {
+        value: function getSkinParts(skin, index, size, scale) {
             var _this5 = this;
 
             //Get main parts of skin (Skin layout version is pre-1.8)
             Object.keys(_PartCoordinates.coordinates).map(function (key) {
                 _this5.queueLenght++;
-                _this5.renderOneFromQueue(skin, _PartCoordinates.coordinates[key], index, key);
+                _this5.renderOneFromQueue(skin, _PartCoordinates.coordinates[key], index, key, scale);
             });
-            size.height === 64 ?
+            size.height === 64 * Math.pow(2, scale) ?
             //Get additional parts of skin (If skin layout version is +1.8)
             Object.keys(_PartCoordinates.extendedCoordinates).map(function (key) {
                 _this5.queueLenght++;
-                _this5.renderOneFromQueue(skin, _PartCoordinates.extendedCoordinates[key], index, key);
+                _this5.renderOneFromQueue(skin, _PartCoordinates.extendedCoordinates[key], index, key, scale);
             }) : undefined;
         }
     }, {
@@ -30577,7 +30592,8 @@ var SkinDisassemble = function (_Component) {
 
             var _props$skins = this.props.skins,
                 skins = _props$skins.skins,
-                sizes = _props$skins.sizes;
+                sizes = _props$skins.sizes,
+                scales = _props$skins.scales;
             var changePartLoadingStatus = this.props.changePartLoadingStatus;
             var removeAllSkinParts = this.props.SkinPartsActions.removeAllSkinParts;
 
@@ -30587,7 +30603,7 @@ var SkinDisassemble = function (_Component) {
 
             //Give to function every skin and it's dimensions (height & width)
             Object.keys(skins).map(function (key) {
-                return _this6.getSkinParts(skins[key], key, sizes[key]);
+                return _this6.getSkinParts(skins[key], key, sizes[key], scales[key]);
             });
             this.queueChecker();
         }
