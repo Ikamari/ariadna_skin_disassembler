@@ -25,7 +25,7 @@ class SkinLoader extends Component {
                 let height = e.target.naturalHeight, width = e.target.naturalWidth;
                 let scale = getScale(height, width);
 
-                if(scale !== false) {
+                if(scale !== null) {
                     validSkins[fileNum] = skins[i];
                     skinSizes[fileNum] = {height, width};
                     skinScales[fileNum] = scale;

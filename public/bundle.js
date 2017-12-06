@@ -30235,7 +30235,7 @@ var SkinLoader = function (_Component) {
                         width = e.target.naturalWidth;
                     var scale = (0, _getScale2.default)(height, width);
 
-                    if (scale !== false) {
+                    if (scale !== null) {
                         validSkins[fileNum] = skins[i];
                         skinSizes[fileNum] = { height: height, width: width };
                         skinScales[fileNum] = scale;
