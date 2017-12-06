@@ -5,10 +5,12 @@ import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 // Components
 import ImageLoader from "./ImageLoader"
+// Helpers
+import getScale from "../../helpers/getScale";
 
 class SkinLoader extends Component {
     checkSkinDimensions(height, width) {
-        return (height === 64 || height === 32) && width === 64
+        return getScale(height, width) !== false;
     }
 
     //Will leave images(skins) that has height & width = 64*32 or 64*64

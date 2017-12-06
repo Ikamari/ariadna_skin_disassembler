@@ -30158,6 +30158,10 @@ var _ImageLoader = __webpack_require__(140);
 
 var _ImageLoader2 = _interopRequireDefault(_ImageLoader);
 
+var _getScale = __webpack_require__(215);
+
+var _getScale2 = _interopRequireDefault(_getScale);
+
 var _processStatus = __webpack_require__(29);
 
 var processStatusActions = _interopRequireWildcard(_processStatus);
@@ -30180,6 +30184,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 // Components
 
+// Helpers
+
 
 var SkinLoader = function (_Component) {
     _inherits(SkinLoader, _Component);
@@ -30193,7 +30199,7 @@ var SkinLoader = function (_Component) {
     _createClass(SkinLoader, [{
         key: "checkSkinDimensions",
         value: function checkSkinDimensions(height, width) {
-            return (height === 64 || height === 32) && width === 64;
+            return (0, _getScale2.default)(height, width) !== false;
         }
 
         //Will leave images(skins) that has height & width = 64*32 or 64*64
@@ -41683,6 +41689,66 @@ module.exports = function spread(callback) {
   };
 };
 
+
+/***/ }),
+/* 215 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var defaultPartSizes = {
+    head: [16, 32],
+    body: [16, 14],
+    limb: [16, 16]
+}; //React
+
+
+var defaultSkinSizes = {
+    new: [64, 64],
+    old: [32, 64]
+};
+
+/**
+ * Will return skin/part scale (64*32 = 1, 128*64 = 2, ...) or false, if the size is wrong
+ */
+var getScale = function getScale(textureHeight, textureWidth) {
+    var isSkin = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+
+    console.log(textureHeight, textureWidth, isSkin);
+    var type = null;
+    var scale = null;
+
+    var countScale = function countScale(sizes) {
+        for (var i = 0, keys = Object.keys(sizes); i < keys.length; i++) {
+            if (textureHeight % sizes[keys[i]][0] === 0 && textureWidth % sizes[keys[i]][1] === 0) {
+                scale = 0;
+                type = keys[i];
+
+                while (textureHeight !== sizes[keys[i]][0] * Math.pow(2, scale)) {
+                    scale++;
+                }console.log("Got " + (isSkin ? type + " skin" : type) + " with scale " + scale);
+                break;
+            }
+        }
+    };
+
+    isSkin ? countScale(defaultSkinSizes) : countScale(defaultPartSizes);
+
+    return scale;
+};
+
+exports.default = getScale;
 
 /***/ })
 /******/ ]);
