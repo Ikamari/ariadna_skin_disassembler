@@ -43,9 +43,10 @@ class SkinDisassemble extends Component {
         const blank = this.refs.blank;
         const { addSkinPart } = this.props.SkinPartsActions;
 
-        canvas.width = (coordinates[2] - coordinates[0]) * Math.pow(2, scale);
-        canvas.height = (coordinates[3] - coordinates[1]) * Math.pow(2, scale);
         console.log(canvas.width, canvas.height, scale, Math.pow(2, scale));
+
+        canvas.width = (coordinates[2] * Math.pow(2, scale) - coordinates[0] * Math.pow(2, scale));
+        canvas.height = (coordinates[3] * Math.pow(2, scale) - coordinates[1] * Math.pow(2, scale));
         blank.width = canvas.width;
         blank.height = canvas.height;
         let context = canvas.getContext('2d');
@@ -57,12 +58,12 @@ class SkinDisassemble extends Component {
                 image,
                 coordinates[0] * Math.pow(2, scale),
                 coordinates[1] * Math.pow(2, scale),
-                context.canvas.width,
-                context.canvas.height,
+                context.canvas.width * Math.pow(2, scale),
+                context.canvas.height * Math.pow(2, scale),
                 0,
                 0,
-                context.canvas.width,
-                context.canvas.height
+                context.canvas.width * Math.pow(2, scale),
+                context.canvas.height * Math.pow(2, scale)
             );
             //Write rendered part to state and tell, that new part can be rendered
             this.inProgress = false;

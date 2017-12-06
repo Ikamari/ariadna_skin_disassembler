@@ -29836,7 +29836,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var initialState = {
-    isDev: false
+    isDev: true
 };
 
 var other = function other() {
@@ -29919,7 +29919,7 @@ var App = function (_Component) {
                         null,
                         'Caution:'
                     ),
-                    ' \u0414\u0430\u043D\u043D\u043E\u0435 \u043F\u0440\u0438\u043B\u043E\u0436\u0435\u043D\u0438\u0435 \u0441\u043F\u043E\u043A\u043E\u0439\u043D\u043E \u0440\u0430\u0437\u0431\u0438\u0440\u0430\u0435\u0442 \u0441\u043A\u0438\u043D\u044B 64*32 \u0438 64*64,',
+                    ' \u0414\u0430\u043D\u043D\u043E\u0435 \u043F\u0440\u0438\u043B\u043E\u0436\u0435\u043D\u0438\u0435 \u0441\u043F\u043E\u043A\u043E\u0439\u043D\u043E \u0440\u0430\u0437\u0431\u0438\u0440\u0430\u0435\u0442 \u0441\u043A\u0438\u043D\u044B \u0440\u0430\u0437\u043D\u044B\u0445 \u0440\u0430\u0437\u043C\u0435\u0440\u043E\u0432,',
                     _react2.default.createElement('br', null),
                     '\u043E\u0434\u043D\u0430\u043A\u043E \u043D\u0435 \u0441\u0442\u043E\u0438\u0442 \u0437\u0430\u043B\u0438\u0432\u0430\u0442\u044C \u0441\u043A\u0438\u043D\u044B \u0434\u043B\u044F \u043C\u043E\u0434\u0435\u043B\u044C\u043A\u0438 \u0410\u043B\u0435\u043A\u0441 (\u041C\u043E\u0434\u0435\u043B\u044C \u0441 \u0431\u043E\u043B\u0435\u0435 \u0442\u043E\u043D\u043A\u0438\u043C\u0438',
                     _react2.default.createElement('br', null),
@@ -30530,9 +30530,10 @@ var SkinDisassemble = function (_Component) {
             var addSkinPart = this.props.SkinPartsActions.addSkinPart;
 
 
-            canvas.width = (coordinates[2] - coordinates[0]) * Math.pow(2, scale);
-            canvas.height = (coordinates[3] - coordinates[1]) * Math.pow(2, scale);
             console.log(canvas.width, canvas.height, scale, Math.pow(2, scale));
+
+            canvas.width = coordinates[2] * Math.pow(2, scale) - coordinates[0] * Math.pow(2, scale);
+            canvas.height = coordinates[3] * Math.pow(2, scale) - coordinates[1] * Math.pow(2, scale);
             blank.width = canvas.width;
             blank.height = canvas.height;
             var context = canvas.getContext('2d');
@@ -30540,7 +30541,7 @@ var SkinDisassemble = function (_Component) {
             //Draw part of skin on canvas
             var image = new Image();
             image.onload = function () {
-                context.drawImage(image, coordinates[0] * Math.pow(2, scale), coordinates[1] * Math.pow(2, scale), context.canvas.width, context.canvas.height, 0, 0, context.canvas.width, context.canvas.height);
+                context.drawImage(image, coordinates[0] * Math.pow(2, scale), coordinates[1] * Math.pow(2, scale), context.canvas.width * Math.pow(2, scale), context.canvas.height * Math.pow(2, scale), 0, 0, context.canvas.width * Math.pow(2, scale), context.canvas.height * Math.pow(2, scale));
                 //Write rendered part to state and tell, that new part can be rendered
                 _this3.inProgress = false;
                 _this3.queueLenght--;
@@ -41747,6 +41748,7 @@ var getScale = function getScale(textureHeight, textureWidth) {
 
     var countScale = function countScale(sizes) {
         for (var i = 0, keys = Object.keys(sizes); i < keys.length; i++) {
+            if (textureHeight / sizes[keys[i]][0] !== textureWidth / sizes[keys[i]][1]) continue;
             if (textureHeight % sizes[keys[i]][0] === 0 && textureWidth % sizes[keys[i]][1] === 0) {
                 scale = 0;
                 type = keys[i];

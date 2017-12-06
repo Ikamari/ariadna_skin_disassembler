@@ -22,6 +22,8 @@ const getScale = (textureHeight, textureWidth, isSkin = true) => {
 
     const countScale = (sizes) => {
         for(let i = 0, keys = Object.keys(sizes); i < keys.length; i++){
+            if(textureHeight / sizes[keys[i]][0] !==  textureWidth / sizes[keys[i]][1])
+                continue;
             if(textureHeight % sizes[keys[i]][0] === 0 && textureWidth % sizes[keys[i]][1] === 0) {
                 scale = 0;
                 type = keys[i];
