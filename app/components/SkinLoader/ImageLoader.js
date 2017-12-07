@@ -18,19 +18,28 @@ class FileLoader extends Component {
                 }
             }
             imageFiles.length = fileNum;
-        } else imageFiles = inputData;
+        } else {
+            imageFiles = inputData;
+            fileNum = inputData.length;
+        }
+        console.log(imageFiles);
 
         //Will convert files to dataURL
-        for(let i = 0; i < imageFiles.length; i++) {
-            let reader  = new FileReader();
+        let reader = new FileReader(), counter = 0;
+        const saveImage = () => {
             reader.onload = (e) => {
-                images[i] = e.target.result;
-                if(i === fileNum - 1) {
+                images[counter] = e.target.result;
+
+                counter++;
+                if (counter < fileNum) {
+                    saveImage();
+                } else {
                     returnPath(images, fileNum);
                 }
             };
-            reader.readAsDataURL(imageFiles[i]);
-        }
+            reader.readAsDataURL(imageFiles[counter]);
+        };
+        saveImage();
     }
 
     checkFileExtension(file, requiredExtension) {
