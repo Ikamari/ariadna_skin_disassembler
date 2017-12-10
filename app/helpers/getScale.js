@@ -3,7 +3,7 @@ import React from 'react';
 
 const defaultPartSizes = {
     head: [16, 32],
-    body: [16, 14],
+    body: [16, 24],
     limb: [16, 16]
 };
 

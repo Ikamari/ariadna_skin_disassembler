@@ -29836,7 +29836,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var initialState = {
-    isDev: true
+    isDev: false
 };
 
 var other = function other() {

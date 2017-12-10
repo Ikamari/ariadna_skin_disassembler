@@ -1,5 +1,5 @@
 const initialState = {
-    isDev: true
+    isDev: false
 };
 
 const other = (state = initialState) => (
